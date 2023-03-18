@@ -1,7 +1,9 @@
-const users = require("./users");
-const news = require("./news");
+const usersCtrls = require("./users");
+const newsCtrls = require("./news");
+const petsCtrls = require("./pets");
 
 module.exports = {
-  users,
-  news,
+  usersCtrls,
+  newsCtrls,
+  petsCtrls,
 };
