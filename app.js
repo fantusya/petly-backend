@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 
 const usersRouter = require("./routes/api/users");
 const newsRouter = require("./routes/api/news");
+const friendsRouter = require("./routes/api/friends");
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use("/api/users", usersRouter);
 app.use("/api/news", newsRouter);
+app.use("/api/friends", friendsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
