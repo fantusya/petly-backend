@@ -2,10 +2,10 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 
+const nameRegexp = /[^a-zа-яё ]/iu; //eslint-disable-line
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // eslint-disable-line
 const passwordRegexp = / ^(?!.* ).{7,32}$/; //eslint-disable-line;
 const phoneRegexp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/; //eslint-disable-line
-
 const userSchema = new Schema(
   {
     email: {
@@ -18,6 +18,8 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+      minlength: 7,
+      maxlength: 32,
       match: [
         passwordRegexp,
         "Password must be 7 to 32 characters and doesn't contain white spaces",
@@ -27,6 +29,7 @@ const userSchema = new Schema(
     name: {
       type: String,
       required: [true, "Name is required"],
+      match: [nameRegexp, "Name must be only Arabic letters"],
     },
 
     city: {
@@ -47,14 +50,13 @@ const userSchema = new Schema(
 
     avatarURL: {
       type: String,
-      require: true,
     },
 
     token: {
       type: String,
       default: null,
     },
-    favorite: [{ type: Schema.Types.ObjectId, ref: "Notice" }],
+    favoriteNotices: [{ type: Schema.Types.ObjectId, ref: "Notice" }],
   },
 
   { versionKey: false, timestamps: true }
@@ -70,11 +72,10 @@ userSchema.methods.comparePassword = function (password) {
 
 const joiRegisterSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().pattern(passwordRegexp).required(),
-  name: Joi.string(),
+  password: Joi.string().min(7).max(32).pattern(passwordRegexp).required(),
+  name: Joi.string().pattern(nameRegexp).required(),
   city: Joi.string().required(),
   phone: Joi.string().pattern(phoneRegexp).required(),
-  birthDate: Joi.date(),
   avatarURL: Joi.string(),
   token: Joi.string(),
 });
