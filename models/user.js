@@ -76,15 +76,11 @@ const joiRegisterSchema = Joi.object({
   name: Joi.string().pattern(nameRegexp).required(),
   city: Joi.string().required(),
   phone: Joi.string().pattern(phoneRegexp).required(),
-  avatarURL: Joi.string(),
-  token: Joi.string(),
 });
 
 const joiLoginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().pattern(passwordRegexp).required(),
-  token: Joi.string(),
-  avatarURL: Joi.string(),
 });
 
 const User = model("users", userSchema);
