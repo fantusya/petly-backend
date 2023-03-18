@@ -1,9 +1,11 @@
-const users = require("./users");
-const news = require("./news");
-const friends = require("./friends");
+const usersCtrls = require("./users");
+const newsCtrls = require("./news");
+const petsCtrls = require("./pets");
+const friendsCtrls = require("./friends");
 
 module.exports = {
-  users,
-  news,
-  friends,
+  usersCtrls,
+  newsCtrls,
+  petsCtrls,
+  friendsCtrls,
 };
