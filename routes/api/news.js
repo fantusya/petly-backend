@@ -1,12 +1,9 @@
 const express = require("express");
+const { ctrlWrapper } = require("../../middlewares");
+const { news: ctrl } = require("../../controllers");
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  res.json({
-    status: "success",
-    message: "HELLO",
-  });
-});
+router.get("/", ctrlWrapper(ctrl.getNews));
 
 module.exports = router;
