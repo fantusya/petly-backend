@@ -14,7 +14,7 @@ const noticeSchema = Schema(
       required: [true, "Title is required"],
       minLength: 2,
       maxLength: 48,
-      s,
+      text: true,
     },
     name: {
       type: String,
@@ -68,11 +68,11 @@ const noticeSchema = Schema(
 );
 
 const joiSchema = Joi.object({
-  category: Joi.string().required(),
+  category: Joi.string().valid("sell", "lost-found", "for-free").required(),
   title: Joi.string().min(2).max(48).required(),
   name: Joi.string().min(2).max(16).required(),
   breed: Joi.string().min(2).max(24).required(),
-  sex: Joi.string().required(),
+  sex: Joi.string().valid("male", "female").required(),
   birthDate: Joi.date().required(),
   location: Joi.string().required(),
   price: Joi.number().min(0.01),
