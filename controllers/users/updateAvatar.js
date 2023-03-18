@@ -5,6 +5,8 @@ const { CLOUD_NAME, API_KEY, API_SECRET } = process.env;
 const { User } = require("../../models/user");
 // const path = require("path");
 const fs = require("fs/promises");
+const cloudinary = require("cloudinary").v2;
+
 // const Jimp = require("jimp");
 
 // const avatarsDir = path.join(__dirname, "../../", "public", "avatars");
