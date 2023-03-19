@@ -20,7 +20,7 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: 7,
-      maxlength: 64,
+      maxlength: 42,
       // match: [
       //   passwordRegexp,
       //   "Password must be 7 to 32 characters and doesn't contain white spaces",
@@ -75,7 +75,7 @@ const joiRegisterSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string()
     .min(7)
-    .max(64)
+    .max(42)
     // .pattern(passwordRegexp)
     .required(),
   name: Joi.string().pattern(nameRegexp).required(),
