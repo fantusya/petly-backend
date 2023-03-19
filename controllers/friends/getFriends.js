@@ -6,7 +6,7 @@ const getFriends = async (req, res) => {
   if (friends.length === 0) {
     throw new NotFound("Sorry, there are no friends yet");
   }
-  res.status(200).json({ friends, total: friends.length });
+  res.status(200).json({ results: friends, total: friends.length });
 };
 
 module.exports = getFriends;
