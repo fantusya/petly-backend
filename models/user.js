@@ -4,8 +4,10 @@ const bcrypt = require("bcryptjs");
 
 const nameRegexp = /[^a-zа-яё ]/; //eslint-disable-line
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // eslint-disable-line
-const passwordRegexp = /^(?!.* ).{7,32}$/; //eslint-disable-line
-const phoneRegexp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/; //eslint-disable-line
+const passwordRegexp = /^\S+$/; //eslint-disable-line
+const phoneRegexp =
+  /^(?!\+.*\(.*\).*--.*$)(?!\+.*\(.*\).*-$)(\+[0-9]{2}\([0-9]{3}\)[0-9]{3}[-]{1}[0-9]{2}[-]{1}[0-9]{2})$/; //eslint-disable-line
+// valid '+38(095)198-37-29'
 
 const userSchema = new Schema(
   {
@@ -20,11 +22,11 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: 7,
-      maxlength: 42,
-      // match: [
-      //   passwordRegexp,
-      //   "Password must be 7 to 32 characters and doesn't contain white spaces",
-      // ],
+      maxlength: 62,
+      match: [
+        passwordRegexp,
+        "Password must be 7 to 32 characters and doesn't contain white spaces",
+      ],
     },
 
     name: {
@@ -41,7 +43,7 @@ const userSchema = new Schema(
     phone: {
       type: String,
       required: [true, "PhoneNumber is required"],
-      match: [phoneRegexp, "Please enter a valid phone number"], // valid '+(38)095-198-37-29'
+      match: [phoneRegexp, "Please enter a valid phone number"],
     },
 
     birthDate: {
@@ -57,7 +59,7 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
-    favoriteNotices: [{ type: Schema.Types.ObjectId, ref: "Notice" }],
+    favoriteNotices: [{ type: Schema.Types.ObjectId, ref: "notice" }],
   },
 
   { versionKey: false, timestamps: true }
@@ -72,15 +74,11 @@ userSchema.methods.comparePassword = function (password) {
 };
 
 const joiRegisterSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string()
-    .min(7)
-    .max(42)
-    // .pattern(passwordRegexp)
-    .required(),
-  name: Joi.string().pattern(nameRegexp).required(),
-  city: Joi.string().required(),
-  phone: Joi.string().pattern(phoneRegexp).required(),
+  email: Joi.string().pattern(emailRegexp),
+  password: Joi.string().min(7).max(62).pattern(passwordRegexp),
+  name: Joi.string().pattern(nameRegexp),
+  city: Joi.string(),
+  phone: Joi.string().pattern(phoneRegexp),
 });
 
 const joiLoginSchema = Joi.object({
