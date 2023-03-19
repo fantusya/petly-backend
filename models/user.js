@@ -20,11 +20,11 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: 7,
-      maxlength: 32,
-      match: [
-        passwordRegexp,
-        "Password must be 7 to 32 characters and doesn't contain white spaces",
-      ],
+      maxlength: 64,
+      // match: [
+      //   passwordRegexp,
+      //   "Password must be 7 to 32 characters and doesn't contain white spaces",
+      // ],
     },
 
     name: {
@@ -73,7 +73,11 @@ userSchema.methods.comparePassword = function (password) {
 
 const joiRegisterSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().min(7).max(32).pattern(passwordRegexp).required(),
+  password: Joi.string()
+    .min(7)
+    .max(64)
+    // .pattern(passwordRegexp)
+    .required(),
   name: Joi.string().pattern(nameRegexp).required(),
   city: Joi.string().required(),
   phone: Joi.string().pattern(phoneRegexp).required(),
@@ -81,7 +85,9 @@ const joiRegisterSchema = Joi.object({
 
 const joiLoginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().pattern(passwordRegexp).required(),
+  password: Joi.string()
+    // .pattern(passwordRegexp)
+    .required(),
 });
 
 const User = model("users", userSchema);
