@@ -1,5 +1,9 @@
-const users = require("./users");
+const usersCtrls = require("./users");
+const newsCtrls = require("./news");
+const petsCtrls = require("./pets");
 
 module.exports = {
-  users,
+  usersCtrls,
+  newsCtrls,
+  petsCtrls,
 };

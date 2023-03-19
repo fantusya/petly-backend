@@ -2,10 +2,11 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 
-const nameRegexp = /[^a-zа-яё ]/iu; //eslint-disable-line
+const nameRegexp = /[^a-zа-яё ]/; //eslint-disable-line
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // eslint-disable-line
-const passwordRegexp = / ^(?!.* ).{7,32}$/; //eslint-disable-line;
+const passwordRegexp = / ^(?!.* ).{7,32}$/; //eslint-disable-line
 const phoneRegexp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/; //eslint-disable-line
+
 const userSchema = new Schema(
   {
     email: {
@@ -40,7 +41,7 @@ const userSchema = new Schema(
     phone: {
       type: String,
       required: [true, "PhoneNumber is required"],
-      match: [phoneRegexp, "Please enter a valid phone number"], //valid '+(38)095-198-37-29'
+      match: [phoneRegexp, "Please enter a valid phone number"], // valid '+(38)095-198-37-29'
     },
 
     birthDate: {
