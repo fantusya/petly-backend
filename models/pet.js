@@ -19,7 +19,7 @@ const petSchema = Schema(
       maxlength: 16,
       match: [lettersRegexp, "Use only letters."],
     },
-    avatarUrl: {
+    photoURL: {
       type: String,
       required: [true, "Photo of the pet is required."],
     },

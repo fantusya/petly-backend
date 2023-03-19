@@ -45,9 +45,9 @@ const noticeSchema = Schema(
       type: Number,
       min: 0.01,
     },
-    avatarUrl: {
+    photoURL: {
       type: String,
-      required: [true, "Please, add an image to your notice"],
+      // required: [true, "Please, add an image to your notice"],
     },
     comments: {
       type: String,
@@ -58,7 +58,7 @@ const noticeSchema = Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
-      required: true,
+      // required: true,
     },
   },
   {
@@ -68,16 +68,16 @@ const noticeSchema = Schema(
 );
 
 const joiSchema = Joi.object({
-  category: Joi.string().valid("sell", "lost-found", "for-free").required(),
-  title: Joi.string().min(2).max(48).required(),
-  name: Joi.string().min(2).max(16).required(),
-  breed: Joi.string().min(2).max(24).required(),
-  sex: Joi.string().valid("male", "female").required(),
-  birthDate: Joi.date().required(),
-  location: Joi.string().required(),
+  category: Joi.string().valid("sell", "lost-found", "for-free"),
+  title: Joi.string().min(2).max(48),
+  name: Joi.string().min(2).max(16),
+  breed: Joi.string().min(2).max(24),
+  sex: Joi.string().valid("male", "female"),
+  birthDate: Joi.date(),
+  location: Joi.string(),
   price: Joi.number().min(0.01),
-  comments: Joi.string().min(8).max(120).required(),
-  avatarUrl: Joi.string().required(),
+  comments: Joi.string().min(8).max(120),
+  photoURL: Joi.string(),
 });
 
 const Notice = model("notice", noticeSchema);
