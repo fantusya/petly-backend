@@ -1,5 +1,20 @@
 const { Schema, model } = require("mongoose");
 
+const workDaysSchema = Schema({
+  isOpen: {
+    type: Boolean,
+    required: true,
+  },
+  from: {
+    type: String,
+    required: true,
+  },
+  to: {
+    type: String,
+    required: true,
+  },
+});
+
 const friendSchema = Schema(
   {
     title: {
@@ -23,7 +38,7 @@ const friendSchema = Schema(
       required: true,
     },
     workDays: {
-      type: Array,
+      type: [workDaysSchema],
       required: true,
     },
     phone: {
