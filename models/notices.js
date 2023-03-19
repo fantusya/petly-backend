@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { Schema, model, now } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const noticeSchema = Schema(
   {
