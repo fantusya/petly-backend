@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { Schema, model } = require("mongoose");
+const { Schema, model, now } = require("mongoose");
 
 const noticeSchema = Schema(
   {
@@ -24,7 +24,7 @@ const noticeSchema = Schema(
     },
     birthDate: {
       type: Date,
-      required: true,
+      default: Date.now,
     },
     breed: {
       type: String,

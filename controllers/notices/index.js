@@ -1,6 +1,6 @@
 const getByKeyword = require("./getByKeyword");
 const getByCategory = require("./getByCategory");
-const getById = require("./getById");
+const foundNotice = require("./foundNotice");
 const addToFavorites = require("./addToFavorites");
 const getFavorite = require("./getFavorite");
 const removeFromFavorites = require("./removeFromFavorites");
@@ -11,7 +11,7 @@ const removeById = require("./removeById");
 module.exports = {
   getByKeyword,
   getByCategory,
-  getById,
+  foundNotice,
   addToFavorites,
   getFavorite,
   removeFromFavorites,

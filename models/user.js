@@ -59,7 +59,7 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
-    favoriteNotices: [{ type: Schema.Types.ObjectId, ref: "Notices" }],
+    favoriteNotices: [{ type: Schema.Types.ObjectId, ref: "notice" }],
   },
 
   { versionKey: false, timestamps: true }
