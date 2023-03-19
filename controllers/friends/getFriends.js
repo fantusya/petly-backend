@@ -1,12 +1,24 @@
 const { Friend } = require("../../models/friend");
-const { NotFound } = require("http-errors");
 
 const getFriends = async (req, res) => {
-  const friends = await Friend.find();
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+
+  const friends = await Friend.find({}, "", {
+    skip,
+    limit: Number(limit),
+  });
   if (friends.length === 0) {
-    throw new NotFound("Sorry, there are no friends yet");
+    res.json({
+      results: "Sorry, there are no friends yet",
+    });
   }
-  res.status(200).json({ results: friends, total: friends.length });
+
+  res.json({
+    results: friends,
+    current_total: page * limit,
+    total: friends.length,
+  });
 };
 
 module.exports = getFriends;
