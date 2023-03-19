@@ -1,12 +1,24 @@
 const { News } = require("../../models/news");
-const { NotFound } = require("http-errors");
 
 const getNews = async (req, res) => {
-  const news = await News.find();
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+
+  const news = await News.find({}, "", {
+    skip,
+    limit: Number(limit),
+  });
   if (news.length === 0) {
-    throw new NotFound("Sorry, there is no news");
+    res.json({
+      results: "Sorry, there is no news yet",
+    });
   }
-  res.status(200).json({ results: news, total: news.length });
+
+  res.json({
+    results: news,
+    current_total: page * limit,
+    total: news.length,
+  });
 };
 
 module.exports = getNews;
