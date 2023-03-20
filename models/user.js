@@ -44,7 +44,7 @@ const userSchema = new Schema(
 
     birthDate: {
       type: Date,
-      default: Date.now,
+      default: null,
     },
 
     avatarURL: {
