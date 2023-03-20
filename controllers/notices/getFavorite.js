@@ -1,25 +1,22 @@
-const { NotFound } = require("http-errors");
 const { Notice } = require("../../models");
 
 const getFavorite = async (req, res) => {
-  const { _id } = req.user;
-  const { page = 1, limit = 20, favorite } = req.query;
-  const skip = (page - 1) * limit;
-  const filters = { owner: _id };
+  const { favoriteNotices } = req.user;
+  if (favoriteNotices.length === 0) {
+    res.json({ message: "No favorite Notices" });
+  }
+  console.log("favoriteNotices", favoriteNotices);
+  const result = [];
 
-  if (favorite) filters.favorite = favorite;
-
-  if (filters.favorite) {
-    const notices = await Notice.find(filters, "-createdAt -updatedAt", {
-      skip,
-      limit: Number(limit),
-    }).populate("owner", "_id name email");
-    if (notices.length === 0) {
-      throw new NotFound(`Favorite notices not found`);
-    } else {
-      res.json(notices);
+  for (const item of favoriteNotices) {
+    try {
+      const foundNotice = await Notice.findById({ _id: item });
+      result.push(foundNotice);
+    } catch (error) {
+      console.log(error);
     }
   }
+  res.json(result);
 };
 
 module.exports = getFavorite;

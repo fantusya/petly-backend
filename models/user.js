@@ -86,7 +86,7 @@ const joiLoginSchema = Joi.object({
     .required(),
 });
 
-const User = model("users", userSchema);
+const User = model("user", userSchema);
 
 module.exports = {
   User,

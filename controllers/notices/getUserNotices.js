@@ -1,7 +1,7 @@
 const { NotFound } = require("http-errors");
 const { Notice } = require("../../models");
 
-const getByUser = async (req, res) => {
+const getUserNotices = async (req, res) => {
   const { _id } = req.user;
   const { page = 1, limit = 20 } = req.query;
   const skip = (page - 1) * limit;
@@ -20,4 +20,4 @@ const getByUser = async (req, res) => {
   res.json(foundNotice);
 };
 
-module.exports = getByUser;
+module.exports = getUserNotices;

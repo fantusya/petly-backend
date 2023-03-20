@@ -1,24 +1,21 @@
-const { NotFound, BadRequest } = require("http-errors");
-const { Notice } = require("../../models");
+const { NotFound } = require("http-errors");
+const { User } = require("../../models");
 
 const removeFromFavorites = async (req, res) => {
   const { _id } = req.user;
   const { id } = req.params;
-  const { favorite } = req.body;
-  if (!favorite) {
-    throw new BadRequest(`Field favorite is required`);
-  }
-  const updatedNotice = await Notice.findOneAndUpdate(
-    { _id: id, owner: _id },
-    { favorite },
+
+  const removeFavortie = await User.findOneAndUpdate(
+    { _id: _id },
+    { $pull: { favoriteNotices: id } },
     {
       new: true,
     }
   );
-  if (!updatedNotice) {
+  if (!removeFavortie) {
     throw new NotFound(`Notice with id=${id} not found`);
   }
-  res.json(updatedNotice);
+  res.json(removeFavortie);
 };
 
 module.exports = removeFromFavorites;
