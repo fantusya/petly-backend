@@ -5,11 +5,10 @@ const getCurrent = async (req, res) => {
 
   const myPets = await Pet.find({ owner: _id }).populate(
     "owner",
-    "_id name email city phone birthDate avatarURLs"
+    "_id name email"
   );
 
   res.json({
-    _id,
     name,
     email,
     city,
