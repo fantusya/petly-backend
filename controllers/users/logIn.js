@@ -9,18 +9,31 @@ const { SECRET_KEY } = process.env;
 
 const logIn = async (req, res) => {
   const { email, password } = req.body;
+
   const user = await User.findOne({ email });
   if (!user || !user.comparePassword(password)) {
     throw new Unauthorized("Email or password is wrong");
   }
+
   const payload = {
     id: user._id,
   };
+
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1w" });
-  await User.findByIdAndUpdate(user._id, { token });
+
+  const updatedUser = await User.findByIdAndUpdate(user._id, { token });
+  const { name, phone, birthDate, city, avatarURL } = updatedUser;
+
   res.json({
     token,
-    email,
+    user: {
+      email,
+      name,
+      phone,
+      birthDate,
+      city,
+      avatarURL,
+    },
   });
 };
 
