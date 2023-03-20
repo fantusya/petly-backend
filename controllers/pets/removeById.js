@@ -14,7 +14,7 @@ const removeById = async (req, res) => {
   }
 
   res.json({
-    message: "Contact deleted",
+    message: "Pet deleted",
   });
 };
 
