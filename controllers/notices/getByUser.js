@@ -11,7 +11,7 @@ const getByUser = async (req, res) => {
     limit: Number(limit),
   }).populate("owner", "_id name email");
   if (notices.length === 0) {
-    throw new NotFound(`Notices not found`);
+    throw new NotFound(`You have no any added notices`);
   }
   res.json(notices);
 };

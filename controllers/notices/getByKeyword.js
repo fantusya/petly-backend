@@ -2,7 +2,7 @@ const { NotFound } = require("http-errors");
 const { Notice } = require("../../models");
 
 const getByKeyword = async (req, res) => {
-  const { search: query } = req.params;
+  const { search: query } = req.query;
 
   const result = await Notice.find({ $text: { $search: query } });
 
