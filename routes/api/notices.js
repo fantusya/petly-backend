@@ -10,7 +10,7 @@ router.get("/:search", ctrlWrapper(ctrl.getByKeyword));
 /* створити ендпоінт для отримання оголошень по категоріям */
 router.get("/:category", ctrlWrapper(ctrl.getByCategory));
 /* створити ендпоінт для отримання одного оголошення */
-router.get("/:id", ctrlWrapper(ctrl.getById));
+router.get("/:id", ctrlWrapper(ctrl.foundNotice));
 /* створити ендпоінт для додавання оголошення до обраних */
 router.post("/favorite/:id", auth, ctrlWrapper(ctrl.addToFavorites));
 /* створити ендпоінт для отримання оголошень авторизованого користувача доданих ним же в обрані */
@@ -20,6 +20,7 @@ router.delete("/favorite/:id", auth, ctrlWrapper(ctrl.removeFromFavorites));
 /* створити ендпоінт для додавання оголошень відповідно до обраної категорії */
 router.post(
   "/",
+  auth,
   validation(joiSchema),
   upload.single("photoURL"),
   ctrlWrapper(ctrl.add)
