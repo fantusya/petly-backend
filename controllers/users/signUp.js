@@ -14,11 +14,7 @@ const signUp = async (req, res) => {
   await newUser.save();
 
   res.status(201).json({
-    name,
-    email,
-    avatarURL: null,
-    city,
-    phone,
+    message: "You have been successfully registered",
   });
 };
 
