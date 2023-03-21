@@ -4,9 +4,13 @@ const { Conflict } = require("http-errors");
 
 const signUp = async (req, res) => {
   const { name, email, password, city, phone } = req.body;
-  const user = await User.findOne({ email });
-  if (user) {
+  const userEmail = await User.findOne({ email });
+  if (userEmail) {
     throw new Conflict(`${email} in use`);
+  }
+  const userPhone = await User.findOne({ phone });
+  if (userPhone) {
+    throw new Conflict(`${phone} in use`);
   }
   // const avatarURL = gravatar.url(email);
   const newUser = new User({ name, email, city, phone, avatarURL: null });

@@ -2,7 +2,8 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 
-const nameRegexp = /[a-zа-яё]/;
+const nameRegexp =
+  /^[a-zA-Zа-яА-ЯіІїЇґҐ\s]*[a-zA-Zа-яА-ЯіІїЇґҐ][a-zA-Zа-яА-ЯіІїЇґҐ\s]*$/;
 const emailRegexp =
   /^(?=.{1,63}$)(?=.{2,}@)[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // eslint-disable-line
 const passwordRegexp = /^\S+$/;
@@ -87,15 +88,14 @@ const joiLoginSchema = Joi.object({
 });
 
 const joiEditInfoSchema = Joi.object({
-  email: Joi.string().min(12).max(50).pattern(emailRegexp).required(),
-  birthDay: Joi.date().required(),
-  name: Joi.string().pattern(nameRegexp).required(),
-  city: Joi.string().required(),
-  phone: Joi.string().pattern(phoneRegexp).required(),
+  email: Joi.string().min(12).max(50).pattern(emailRegexp),
+  birthDay: Joi.date(),
+  name: Joi.string().pattern(nameRegexp),
+  city: Joi.string(),
+  phone: Joi.string().pattern(phoneRegexp),
 });
 
 const User = model("users", userSchema);
-
 
 module.exports = {
   User,
