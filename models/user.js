@@ -86,10 +86,20 @@ const joiLoginSchema = Joi.object({
     .required(),
 });
 
-const User = model("user", userSchema);
+const joiEditInfoSchema = Joi.object({
+  email: Joi.string().min(12).max(50).pattern(emailRegexp).required(),
+  birthDay: Joi.date().required(),
+  name: Joi.string().pattern(nameRegexp).required(),
+  city: Joi.string().required(),
+  phone: Joi.string().pattern(phoneRegexp).required(),
+});
+
+const User = model("users", userSchema);
+
 
 module.exports = {
   User,
   joiRegisterSchema,
   joiLoginSchema,
+  joiEditInfoSchema,
 };
