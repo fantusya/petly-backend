@@ -25,7 +25,7 @@ const petSchema = Schema(
     },
     date: {
       type: Date,
-      required: true,
+      default: Date.now,
     },
     comments: {
       type: String,
@@ -42,14 +42,14 @@ const petSchema = Schema(
 );
 
 const joiPetSchema = Joi.object({
-  name: Joi.string().min(2).max(16).pattern(lettersRegexp).required(),
-  breed: Joi.string().min(2).max(16).pattern(lettersRegexp).required(),
-  avatarUrl: Joi.string().required(),
-  date: Joi.date().required(),
-  comments: Joi.string().min(2).max(16).required(),
+  name: Joi.string().min(2).max(16).pattern(lettersRegexp),
+  breed: Joi.string().min(2).max(16).pattern(lettersRegexp),
+  avatarUrl: Joi.string(),
+  date: Joi.date(),
+  comments: Joi.string().min(2).max(16),
 });
 
-const Pet = model("user", petSchema);
+const Pet = model("pets", petSchema);
 
 module.exports = {
   Pet,

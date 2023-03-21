@@ -1,5 +1,5 @@
 const add = require("./add");
-const removeById = require("./add");
+const removeById = require("./removeById");
 
 module.exports = {
   add,

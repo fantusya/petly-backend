@@ -96,6 +96,7 @@ const joiEditInfoSchema = Joi.object({
 
 const User = model("users", userSchema);
 
+
 module.exports = {
   User,
   joiRegisterSchema,
