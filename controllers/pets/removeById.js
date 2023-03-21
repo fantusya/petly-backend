@@ -5,17 +5,15 @@ const removeById = async (req, res) => {
   const { petId } = req.params;
   const { _id } = req.user;
 
-  const result = await Pet.findOneAndRemove({
+  const deletedPet = await Pet.findOneAndRemove({
     _id: petId,
     owner: _id,
   });
-  if (!result) {
+  if (!deletedPet) {
     throw new NotFound(`Not found`);
   }
 
-  res.json({
-    message: "Pet deleted",
-  });
+  res.json(deletedPet);
 };
 
 module.exports = removeById;

@@ -3,7 +3,7 @@ const { Notice } = require("../../models");
 const getFavorite = async (req, res) => {
   const { favoriteNotices } = req.user;
   if (favoriteNotices.length === 0) {
-    res.json({ message: "No favorite Notices" });
+    res.json({ favoriteNotices: [] });
   }
   console.log("favoriteNotices", favoriteNotices);
   const result = [];

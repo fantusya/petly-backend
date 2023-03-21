@@ -11,13 +11,13 @@ router.post("/favorite/:id", auth, ctrlWrapper(ctrl.addToFavorites));
 router.get("/favorite", auth, ctrlWrapper(ctrl.getFavorite));
 router.delete("/favorite/:id", auth, ctrlWrapper(ctrl.removeFromFavorites));
 router.post(
-  "/notice",
+  "/",
   auth,
   validation(joiSchema),
   upload.single("photoURL"),
   ctrlWrapper(ctrl.add)
 );
 router.get("/", auth, ctrlWrapper(ctrl.getByUser));
-router.delete("/notice/:id", auth, ctrlWrapper(ctrl.removeById));
+router.delete("/id/:id", auth, ctrlWrapper(ctrl.removeById));
 
 module.exports = router;
