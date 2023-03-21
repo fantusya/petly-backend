@@ -3,8 +3,6 @@ const { uploadNoticeImage } = require("../../middlewares/cloudinary");
 const { BadRequest } = require("http-errors");
 const fs = require("fs/promises");
 
-// https://github.com/okarynskyi/team-project-petly-frontend/blob/main/src/helpers/formatDate.js
-
 const add = async (req, res) => {
   const { title, name, breed } = req.body;
   const { path: upload } = req.file;

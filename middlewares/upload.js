@@ -9,6 +9,7 @@ const multerConfig = multer.diskStorage({
     cb(null, tmpDir);
   },
   filename: (req, file, cb) => {
+    console.log("file:", file);
     cb(null, file.originalname);
   },
 });

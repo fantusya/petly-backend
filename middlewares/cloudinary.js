@@ -2,12 +2,12 @@ const cloudinary = require("cloudinary").v2;
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env;
+const { CLOUD_NAME, API_KEY, API_SECRET } = process.env;
 
 cloudinary.config({
   cloud_name: CLOUD_NAME,
-  api_key: CLOUDINARY_API_KEY,
-  api_secret: CLOUDINARY_API_SECRET,
+  api_key: API_KEY,
+  api_secret: API_SECRET,
 });
 
 const uploadNoticeImage = async (pathFile) => {
@@ -28,15 +28,14 @@ const uploadNoticeImage = async (pathFile) => {
   }
 };
 
-const uploadPetsImage = async (pathFile) => {
+const uploadAvatarImage = async (pathFile) => {
   const options = {
-    folder: "petsImages",
+    folder: "userAvatars",
     use_filename: true,
     unique_filename: false,
     overwrite: true,
     transformation: [
-      { height: 161, width: 161, gravity: "face", crop: "fill" },
-      { radius: "20" },
+      { gravity: "face", height: 233, width: 233, crop: "fill" },
     ],
   };
   try {
@@ -47,4 +46,22 @@ const uploadPetsImage = async (pathFile) => {
   }
 };
 
-module.exports = { uploadNoticeImage, uploadPetsImage };
+const uploadPetsImage = async (pathFile) => {
+  const options = {
+    folder: "petsImages",
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+    transformation: [
+      { height: 161, width: 161, gravity: "face", crop: "fill" },
+    ],
+  };
+  try {
+    const result = await cloudinary.uploader.upload(pathFile, options);
+    return result.url;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+module.exports = { uploadNoticeImage, uploadPetsImage, uploadAvatarImage };
