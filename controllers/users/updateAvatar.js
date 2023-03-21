@@ -7,7 +7,6 @@ const updateAvatar = async (req, res) => {
   const { _id } = req.user;
 
   const photoURL = await uploadAvatarImage(upload);
-  console.log("photoURL", photoURL);
 
   const updatedUser = await User.findByIdAndUpdate(
     { _id },
