@@ -95,7 +95,7 @@ const joiEditInfoSchema = Joi.object({
   phone: Joi.string().pattern(phoneRegexp),
 });
 
-const User = model("users", userSchema);
+const User = model("user", userSchema);
 
 module.exports = {
   User,

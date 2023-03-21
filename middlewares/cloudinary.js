@@ -53,7 +53,7 @@ const uploadPetsImage = async (pathFile) => {
     unique_filename: false,
     overwrite: true,
     transformation: [
-      { height: 161, width: 161, gravity: "face", crop: "fill" },
+      { height: 240, width: 240, gravity: "face", crop: "fill" },
     ],
   };
   try {
