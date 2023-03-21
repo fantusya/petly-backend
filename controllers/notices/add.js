@@ -16,6 +16,7 @@ const add = async (req, res) => {
   if (notice) {
     throw BadRequest("Notice already exist");
   }
+
   const newNotice = await Notice.create({
     ...req.body,
     owner,

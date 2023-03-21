@@ -22,7 +22,7 @@ const noticeSchema = Schema(
       maxLength: 16,
       required: [true, "Name is required"],
     },
-    birthDate: {
+    date: {
       type: Date,
       default: Date.now,
     },
@@ -73,7 +73,7 @@ const joiSchema = Joi.object({
   name: Joi.string().min(2).max(16),
   breed: Joi.string().min(2).max(24),
   sex: Joi.string().valid("male", "female"),
-  birthDate: Joi.date(),
+  date: Joi.date(),
   location: Joi.string(),
   price: Joi.number().min(0.01),
   comments: Joi.string().min(8).max(120),
