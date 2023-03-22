@@ -1,11 +1,5 @@
 const express = require("express");
-const {
-  validation,
-  ctrlWrapper,
-  auth,
-  upload,
-  refreshToken,
-} = require("../../middlewares");
+const { validation, ctrlWrapper, auth, upload } = require("../../middlewares");
 const {
   joiRegisterSchema,
   joiLoginSchema,
