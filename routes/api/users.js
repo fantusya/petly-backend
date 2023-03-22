@@ -1,5 +1,11 @@
 const express = require("express");
-const { validation, ctrlWrapper, auth, upload } = require("../../middlewares");
+const {
+  validation,
+  ctrlWrapper,
+  auth,
+  upload,
+  passport,
+} = require("../../middlewares");
 const {
   joiRegisterSchema,
   joiLoginSchema,
@@ -10,6 +16,18 @@ const { usersCtrls: ctrl } = require("../../controllers");
 
 const router = express.Router();
 
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+router.get(
+  "/google/callback",
+  passport.authenticate(
+    "google",
+    { session: false },
+    ctrlWrapper(ctrl.googleAuth)
+  )
+);
 router.post("/signup", validation(joiRegisterSchema), ctrlWrapper(ctrl.signUp));
 router.post("/login", validation(joiLoginSchema), ctrlWrapper(ctrl.logIn));
 router.post(
