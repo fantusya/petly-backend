@@ -5,17 +5,18 @@ const removeFromFavorites = async (req, res) => {
   const { _id } = req.user;
   const { id } = req.params;
 
-  const removeFavortie = await User.findOneAndUpdate(
-    { _id: _id },
+  const favoriteToRemove = await User.findOneAndUpdate(
+    { _id },
     { $pull: { favoriteNotices: id } },
     {
       new: true,
     }
   );
-  if (!removeFavortie) {
+  if (!favoriteToRemove) {
     throw new NotFound(`Notice with id=${id} not found`);
   }
-  res.json(removeFavortie);
+
+  res.json(favoriteToRemove);
 };
 
 module.exports = removeFromFavorites;

@@ -5,7 +5,7 @@ const { User } = require("../../models/user");
 const { Unauthorized } = require("http-errors");
 const jwt = require("jsonwebtoken");
 
-const { SECRET_KEY } = process.env;
+const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const logIn = async (req, res) => {
   const { email, password } = req.body;
@@ -19,8 +19,12 @@ const logIn = async (req, res) => {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1w" });
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "2m" });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
 
+<<<<<<< HEAD
   const updatedUser = await User.findByIdAndUpdate(user._id, { token });
   const { name, phone, date, city, avatarURL } = updatedUser;
 
@@ -34,6 +38,26 @@ const logIn = async (req, res) => {
       city,
       avatarURL,
     },
+=======
+  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
+  // const updatedUser = await User.findByIdAndUpdate(user._id, {
+  //   accessToken,
+  //   refreshToken,
+  // });
+  // const { name, phone, birthDate, city, avatarURL } = updatedUser;
+
+  res.json({
+    accessToken,
+    refreshToken,
+    // user: {
+    //   email,
+    //   name,
+    //   phone,
+    //   birthDate,
+    //   city,
+    //   avatarURL,
+    // },
+>>>>>>> master
   });
 };
 

@@ -5,7 +5,7 @@ const getFavorite = async (req, res) => {
   if (favoriteNotices.length === 0) {
     res.json({ favoriteNotices: [] });
   }
-  console.log("favoriteNotices", favoriteNotices);
+
   const result = [];
 
   for (const item of favoriteNotices) {
@@ -16,6 +16,7 @@ const getFavorite = async (req, res) => {
       console.log(error);
     }
   }
+
   res.json(result);
 };
 

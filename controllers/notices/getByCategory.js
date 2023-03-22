@@ -10,13 +10,16 @@ const getByCategory = async (req, res) => {
     skip,
     limit: Number(limit),
   }).populate("owner", "_id name email");
+
   if (result.length === 0 || !category) {
     throw new NotFound(`There is no notices in this category`);
   }
+
   const notices = [...result].sort(
     (firstNotice, secondNotice) =>
       new Date(secondNotice.createdAt) - new Date(firstNotice.createdAt)
   );
+
   res.json(notices);
 };
 
