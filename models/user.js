@@ -53,7 +53,11 @@ const userSchema = new Schema(
       default: null,
     },
 
-    token: {
+    accessToken: {
+      type: String,
+      default: null,
+    },
+    refreshToken: {
       type: String,
       default: null,
     },
@@ -95,6 +99,10 @@ const joiEditInfoSchema = Joi.object({
   phone: Joi.string().pattern(phoneRegexp),
 });
 
+const joiRefreshTokenSchema = Joi.object({
+  refreshToken: Joi.string().required(),
+});
+
 const User = model("user", userSchema);
 
 module.exports = {
@@ -102,4 +110,5 @@ module.exports = {
   joiRegisterSchema,
   joiLoginSchema,
   joiEditInfoSchema,
+  joiRefreshTokenSchema,
 };
