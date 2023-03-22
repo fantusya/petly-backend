@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-const lettersRegexp = /[^a-zа-яё ]/;
+const lettersRegex = /[a-zA-Zа-яА-ЯіІїЇґҐёЁєЄ]/;
 
 const petSchema = Schema(
   {
@@ -10,14 +10,14 @@ const petSchema = Schema(
       required: [true, "Name is required."],
       minlength: 2,
       maxlength: 16,
-      match: [lettersRegexp, "Use only letters."],
+      match: [lettersRegex, "Use only letters."],
     },
     breed: {
       type: String,
       required: [true, "Breed is required."],
       minlength: 2,
       maxlength: 16,
-      match: [lettersRegexp, "Use only letters."],
+      match: [lettersRegex, "Use only letters."],
     },
     photoURL: {
       type: String,
@@ -26,6 +26,7 @@ const petSchema = Schema(
     date: {
       type: Date,
       default: Date.now,
+      required: [true, "Date of birth of the pet is required."],
     },
     comments: {
       type: String,
@@ -41,17 +42,17 @@ const petSchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
-const joiPetSchema = Joi.object({
-  name: Joi.string().min(2).max(16).pattern(lettersRegexp),
-  breed: Joi.string().min(2).max(16).pattern(lettersRegexp),
-  avatarUrl: Joi.string(),
-  date: Joi.date(),
-  comments: Joi.string().min(2).max(16),
+const joiPetAddSchema = Joi.object({
+  name: Joi.string().min(2).max(16).pattern(lettersRegex).required(),
+  breed: Joi.string().min(2).max(16).pattern(lettersRegex).required(),
+  // photoURL: Joi.string().required(),
+  date: Joi.date().required(),
+  comments: Joi.string().min(8).max(120).required(),
 });
 
 const Pet = model("pets", petSchema);
 
 module.exports = {
   Pet,
-  joiPetSchema,
+  joiPetAddSchema,
 };

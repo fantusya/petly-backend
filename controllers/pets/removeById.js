@@ -10,7 +10,7 @@ const removeById = async (req, res) => {
     owner: _id,
   });
   if (!deletedPet) {
-    throw new NotFound(`Not found`);
+    throw new NotFound(`No pet with such id!`);
   }
 
   res.json(deletedPet);

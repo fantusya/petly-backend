@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
-
 const logIn = async (req, res) => {
   const { email, password } = req.body;
 
@@ -25,23 +24,24 @@ const logIn = async (req, res) => {
     expiresIn: "7d",
   });
 
-  const updatedUser = await User.findByIdAndUpdate(user._id, {
-    accessToken,
-    refreshToken,
-  });
-  const { name, phone, birthDate, city, avatarURL } = updatedUser;
+  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
+  // const updatedUser = await User.findByIdAndUpdate(user._id, {
+  //   accessToken,
+  //   refreshToken,
+  // });
+  // const { name, phone, birthDate, city, avatarURL } = updatedUser;
 
   res.json({
     accessToken,
     refreshToken,
-    user: {
-      email,
-      name,
-      phone,
-      birthDate,
-      city,
-      avatarURL,
-    },
+    // user: {
+    //   email,
+    //   name,
+    //   phone,
+    //   birthDate,
+    //   city,
+    //   avatarURL,
+    // },
   });
 };
 
