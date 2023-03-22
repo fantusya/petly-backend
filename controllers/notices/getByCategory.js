@@ -3,8 +3,6 @@ const { Notice } = require("../../models");
 
 const getByCategory = async (req, res) => {
   const { category } = req.params;
-  console.log("привет");
-  console.log("category", category);
   const { page = 1, limit = 10 } = req.query;
   const skip = (page - 1) * limit;
 

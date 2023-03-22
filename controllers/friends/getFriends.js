@@ -1,4 +1,4 @@
-const { Friend } = require("../../models/friend");
+const { Friend } = require("../../models");
 
 const getFriends = async (req, res) => {
   const { page = 1, limit = 10 } = req.query;

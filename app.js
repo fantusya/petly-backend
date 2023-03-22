@@ -8,6 +8,7 @@ const newsRouter = require("./routes/api/news");
 const friendsRouter = require("./routes/api/friends");
 const petsRouter = require("./routes/api/pets");
 const noticesRouter = require("./routes/api/notices");
+const citiesRouter = require("./routes/api/cities");
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use("/api/news", newsRouter);
 app.use("/api/friends", friendsRouter);
 app.use("/api/pets", petsRouter);
 app.use("/api/notices", noticesRouter);
+app.use("/api/cities", citiesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
