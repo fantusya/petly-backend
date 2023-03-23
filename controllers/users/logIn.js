@@ -1,25 +1,47 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const { User } = require("../../models/user");
 const { Unauthorized } = require("http-errors");
 const jwt = require("jsonwebtoken");
 
-const { SECRET_KEY } = process.env;
+const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const logIn = async (req, res) => {
   const { email, password } = req.body;
+
   const user = await User.findOne({ email });
-  if (!user || !user.verify || !user.comparePassword(password)) {
-    throw new Unauthorized(
-      "Email is wrong or not verified, or password is wrong"
-    );
+  if (!user || !user.comparePassword(password)) {
+    throw new Unauthorized("Email or password is wrong");
   }
+
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1w" });
-  await User.findByIdAndUpdate(user._id, { token });
+
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "2m" });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
+
+  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
+  // const updatedUser = await User.findByIdAndUpdate(user._id, {
+  //   accessToken,
+  //   refreshToken,
+  // });
+  // const { name, phone, birthDate, city, avatarURL } = updatedUser;
+
   res.json({
-    token,
-    email,
+    accessToken,
+    refreshToken,
+    // user: {
+    //   email,
+    //   name,
+    //   phone,
+    //   birthDate,
+    //   city,
+    //   avatarURL,
+    // },
   });
 };
 
