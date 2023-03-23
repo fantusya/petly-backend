@@ -14,14 +14,14 @@
   "servers": [
     { "url": "http://localhost:3030", "description": "Local" },
     {
-      "url": "https://petly-backend-vopf.onrender.com",
+      "url": "https://uninterested-hose-newt.cyclic.app",
       "description": "Main"
     }
   ],
   "tags": [
     {
-      "name": "Auth",
-      "description": "Authorization endpoints"
+      "name": "Users",
+      "description": "Users endpoints"
     },
     {
       "name": "Our Friends",
@@ -36,14 +36,18 @@
       "description": "Notices endpoints"
     },
     {
-      "name": "User",
-      "description": "User endpoints"
+      "name": "Pets",
+      "description": "Pets endpoints"
+    },
+    {
+      "name": "Cities",
+      "description": "Cities endpoints"
     }
   ],
   "paths": {
-    "/api/users/register": {
+    "/api/users/signup": {
       "post": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "Create a new user",
 
         "parameters": [],
@@ -54,7 +58,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
+                "$ref": "#/components/schemas/SignupRequest"
               }
             }
           }
@@ -71,7 +75,7 @@
             }
           },
           "400": { "description": "Bad Request" },
-          "409": { "description": "Email in use" },
+          "409": { "description": "Email or phone in use" },
           "500": { "description": "Server error" }
         }
       }
@@ -79,7 +83,7 @@
 
     "/api/users/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "User login",
 
         "parameters": [],
@@ -117,32 +121,9 @@
       }
     },
 
-    "/api/users/logout": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Log out user",
-
-        "parameters": [],
-
-        "security": [{ "Bearer": [] }],
-
-        "responses": {
-          "204": {
-            "description": "Logout success"
-          },
-          "401": {
-            "description": "Missing header with authorization token"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-
     "/api/users/current": {
       "get": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "Get information about the current user",
 
         "parameters": [],
@@ -170,9 +151,32 @@
       }
     },
 
-    "/api/users/update": {
+    "/api/users/logout": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Log out user",
+
+        "parameters": [],
+
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "204": {
+            "description": "Logout success"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+
+    "/api/users/edit": {
       "patch": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "Update information about the current user",
 
         "parameters": [],
@@ -212,9 +216,9 @@
       }
     },
 
-    "/api/users/avatar": {
+    "/api/users/avatars": {
       "patch": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "Update user avatar",
 
         "security": [{ "Bearer": [] }],
@@ -259,117 +263,6 @@
       }
     },
 
-    "/api/users/restore": {
-      "patch": {
-        "tags": ["Auth"],
-        "summary": "Restore user password",
-
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string",
-                "email": "User's email"
-              },
-              "example": {
-                "email": {
-                  "type": "string",
-                  "description": "User's email",
-                  "example": "bjohnson@gmail.com"
-                }
-              }
-            }
-          }
-        },
-
-        "parameters": [],
-
-        "security": [{ "Bearer": [] }],
-
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "example": { "message": "New password email sent" }
-              }
-            }
-          },
-          "404": {
-            "description": "Email is not found"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-
-    "/api/users/verify/{verificationToken}": {
-      "get": {
-        "tags": ["Auth"],
-        "summary": "Update user token",
-
-        "parameters": [],
-
-        "responses": {
-          "200": {
-            "description": "Verification successful"
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "500": { "description": "Server error" }
-        }
-      }
-    },
-
-    "/api/users/verify": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Verify user Email",
-
-        "parameters": [],
-
-        "security": [{ "Bearer": [] }],
-
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string",
-                "email": "User's email"
-              },
-              "example": {
-                "email": {
-                  "type": "string",
-                  "description": "User's email",
-                  "example": "bjohnson@gmail.com"
-                }
-              }
-            }
-          }
-        },
-
-        "responses": {
-          "200": {
-            "description": "Verification email sent",
-            "content": {
-              "application/json": {
-                "example": { "message": "Verification email sent" }
-              }
-            }
-          },
-          "400": { "description": "Verification has already been passed" },
-          "404": {
-            "description": "User is not found"
-          }
-        }
-      }
-    },
-
     "/api/friends": {
       "get": {
         "tags": ["Our Friends"],
@@ -384,10 +277,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/getFriendsRequest"
+                  "$ref": "#/components/schemas/GetFriendsRequest"
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not found"
           },
           "500": {
             "description": "Server error"
@@ -409,13 +305,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/getNewsRequest"
+                  "$ref": "#/components/schemas/GetNewsResponse"
                 }
               }
             }
           },
           "404": {
-            "description": "Not find"
+            "description": "Not found"
           },
           "500": {
             "description": "Server error"
@@ -740,35 +636,10 @@
       }
     },
 
-    "/api/mypets": {
-      "get": {
-        "tags": ["User"],
-        "summary": "Receiving personal information about the user and information about the user's animals",
-
-        "security": [{ "Bearer": [] }],
-
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/petsSchema"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      },
+    "/api/pets": {
       "post": {
-        "tags": ["User"],
-        "summary": "Adding a user animal card",
+        "tags": ["Pets"],
+        "summary": "Add animal card",
 
         "security": [{ "Bearer": [] }],
 
@@ -828,10 +699,10 @@
       }
     },
 
-    "/api/mypets/{petId}": {
+    "/api/pets/{petId}": {
       "delete": {
-        "tags": ["User"],
-        "summary": "Removing the card with the user's animal",
+        "tags": ["Pets"],
+        "summary": "Removing the animal card",
 
         "security": [{ "Bearer": [] }],
 
@@ -856,12 +727,51 @@
           }
         }
       }
+    },
+
+    "/api/cities/{cityName}": {
+      "get": {
+        "tags": ["Cities"],
+        "summary": "Add city name and location in Register form",
+        "consumes": "application/json",
+
+        "parameters": [],
+        "requestBody": {
+          "description": "User's city and region",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCitiesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCitiesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
     }
   },
 
   "components": {
     "schemas": {
-      "RegistrationRequest": {
+      "SignupRequest": {
         "type": "object",
         "required": ["email", "password", "name", "city", "phone"],
         "properties": {
@@ -869,7 +779,7 @@
             "type": "string",
             "description": "User's email",
             "format": "email",
-            "example": "bjohnson@gmail.com"
+            "example": "usertest@gmail.com"
           },
           "password": {
             "type": "string",
@@ -879,7 +789,7 @@
           "name": {
             "type": "string",
             "description": "User's name",
-            "example": "Boris Johnson"
+            "example": "User Test"
           },
           "city": {
             "type": "string",
@@ -902,12 +812,12 @@
             "name": {
               "type": "string",
               "description": "User's name",
-              "example": "Boris Johnson"
+              "example": "User Test"
             },
             "email": {
               "type": "string",
               "description": "User's email",
-              "example": "bjohnson@gmail.com"
+              "example": "usertest@gmail.com"
             },
             "token": {
               "type": "string",
@@ -922,8 +832,8 @@
           }
         },
         "example": {
-          "name": "Boris Johnson",
-          "email": "bjohnson@gmail.com",
+          "name": "User Test",
+          "email": "usertest@gmail.com",
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGE1MmY1MTMxYSIsImlhdCI6MTY3NTM3MTE2MSwiZXhwIjoxNjc1MzcyMDYxfQ.hesoLS6Xr6LZfjgpo-otp8eZCgCLoLKMWRYpojZ6cKE",
           "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGE1MmY1MTMxYSIsImlhdCI6MTY3NTM3MTE2MSwiZXhwIjoxNjc1MzcyMDYxfQ.hesoLS6Xr6LZfjgpo-otp8eZCgCLoLKMWRYpojZ6cKE"
         }
@@ -936,7 +846,7 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "example": "bjohnson@gmail.com"
+            "example": "usertest@gmail.com"
           },
           "password": {
             "type": "string",
@@ -954,12 +864,12 @@
             "name": {
               "type": "string",
               "description": "User's name",
-              "example": "Boris Johnson"
+              "example": "User Test"
             },
             "email": {
               "type": "string",
               "description": "User's email",
-              "example": "bjohnson@gmail.com"
+              "example": "usertest@gmail.com"
             },
             "token": {
               "type": "string",
@@ -969,8 +879,8 @@
           }
         },
         "example": {
-          "name": "Boris Johnson",
-          "email": "bjohnson@gmail.com",
+          "name": "User Test",
+          "email": "usertest@gmail.com",
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGE1MmY1MTMxYSIsImlhdCI6MTY3NTM3MTE2MSwiZXhwIjoxNjc1MzcyMDYxfQ.hesoLS6Xr6LZfjgpo-otp8eZCgCLoLKMWRYpojZ6cKE"
         }
       },
@@ -981,12 +891,12 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "example": "bjohnson@gmail.com"
+            "example": "usertest@gmail.com"
           },
           "name": {
             "type": "string",
             "description": "User's name",
-            "example": "Boris Johnson"
+            "example": "User Test"
           },
           "city": {
             "type": "string",
@@ -1015,12 +925,12 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "example": "bjohnson@gmail.com"
+            "example": "usertest@gmail.com"
           },
           "name": {
             "type": "string",
             "description": "User's name",
-            "example": "Boris Johnson"
+            "example": "User Test"
           },
           "city": {
             "type": "string",
@@ -1045,7 +955,7 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "example": "bjohnson@gmail.com"
+            "example": "usertest@gmail.com"
           },
           "name": {
             "type": "string",
@@ -1073,7 +983,7 @@
         }
       },
 
-      "getFriendsRequest": {
+      "GetFriendsRequest": {
         "type": "object",
         "properties": {
           "title": {
@@ -1103,7 +1013,7 @@
         }
       },
 
-      "getNewsRequest": {
+      "GetNewsResponse": {
         "type": "object",
         "properties": {
           "title": {
@@ -1116,6 +1026,27 @@
             "type": "string"
           },
           "date": {
+            "type": "string"
+          }
+        }
+      },
+
+      "GetCitiesRequest": {
+        "type": "object",
+        "required": "cityName",
+        "properties": {
+          "cityName": {
+            "type": "string",
+            "description": "User's city and region",
+            "example": "Brovary, Kyiv"
+          }
+        }
+      },
+
+      "GetCitiesResponse": {
+        "type": "string",
+        "properties": {
+          "cityName": {
             "type": "string"
           }
         }
@@ -1164,9 +1095,9 @@
       "addNoticeSchema": {
         "type": "object",
         "required": [
-          "tittle",
+          "title",
           "name",
-          "dateOfBirth",
+          "date",
           "bread",
           "sex",
           "location",
@@ -1176,7 +1107,7 @@
           "petImage"
         ],
         "properties": {
-          "tittle": {
+          "title": {
             "type": "string"
           },
           "name": {
@@ -1217,13 +1148,13 @@
             "type": "string",
             "example": "Jack"
           },
-          "dateOfBirth": {
+          "date": {
             "type": "string",
             "example": "22.04.2018"
           },
           "bread": {
             "type": "string",
-            "example": "Basenji"
+            "example": "jack-russell terrier"
           },
           "comments": {
             "type": "string",
