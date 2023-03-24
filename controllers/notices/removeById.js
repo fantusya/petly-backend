@@ -21,7 +21,7 @@ const removeById = async (req, res) => {
   if (!deletedNotice) {
     throw new NotFound(`Notice with id=${id} not found`);
   }
-  res.json(deletedNotice);
+  res.json({ result: id });
 };
 
 module.exports = removeById;

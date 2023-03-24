@@ -18,16 +18,16 @@ const router = express.Router();
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
+  passport.authenticate("google", {
+    scope: ["email", "profile"],
+  })
 );
 router.get(
   "/google/callback",
-  passport.authenticate(
-    "google",
-    { session: false },
-    ctrlWrapper(ctrl.googleAuth)
-  )
+  passport.authenticate("google", { session: false }),
+  ctrlWrapper(ctrl.googleAuth)
 );
+
 router.post("/signup", validation(joiRegisterSchema), ctrlWrapper(ctrl.signUp));
 router.post("/login", validation(joiLoginSchema), ctrlWrapper(ctrl.logIn));
 router.post(

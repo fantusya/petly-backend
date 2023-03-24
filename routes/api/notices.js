@@ -4,8 +4,7 @@ const { joiAddNoticeSchema } = require("../../models/notices");
 const { noticesCtrls: ctrl } = require("../../controllers");
 
 const router = express.Router();
-// router.get("/search/:search", ctrlWrapper(ctrl.getByKeyword));
-// //////////
+//
 router.get("/category/:category", ctrlWrapper(ctrl.getByCategory)); // OK
 
 router.get("/id/:id", ctrlWrapper(ctrl.getById));
@@ -26,6 +25,6 @@ router.post(
   ctrlWrapper(ctrl.add)
 ); // OK
 
-router.get("/", auth, ctrlWrapper(ctrl.getByUser)); // OK
+router.get("/", auth, ctrlWrapper(ctrl.getUserNotices)); // OK
 
 module.exports = router;
