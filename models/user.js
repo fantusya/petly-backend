@@ -86,14 +86,12 @@ const joiRegisterSchema = Joi.object({
 
 const joiLoginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string()
-    // .pattern(passwordRegexp)
-    .required(),
+  password: Joi.string().pattern(passwordRegexp).required(),
 });
 
 const joiEditInfoSchema = Joi.object({
   email: Joi.string().min(12).max(50).pattern(emailRegexp),
-  birthDay: Joi.date(),
+  birthDate: Joi.date(),
   name: Joi.string().pattern(nameRegexp),
   city: Joi.string(),
   phone: Joi.string().pattern(phoneRegexp),

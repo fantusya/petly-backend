@@ -10,13 +10,13 @@ const refreshToken = async (req, res) => {
   const { refreshToken: token } = req.body;
   try {
     const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
+
     const isExist = await User.findOne({ refreshToken: token });
     if (!isExist) {
       throw new Forbidden("Token invalid");
     }
-    const payload = {
-      id,
-    };
+
+    const payload = { id };
 
     const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
       expiresIn: "2m",
@@ -25,10 +25,7 @@ const refreshToken = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.json({
-      accessToken,
-      refreshToken,
-    });
+    res.json({ accessToken, refreshToken });
   } catch (error) {
     throw new Forbidden("Token invalid");
   }

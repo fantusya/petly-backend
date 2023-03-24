@@ -24,7 +24,7 @@ const noticeSchema = Schema(
     },
     birthDate: {
       type: Date,
-      default: Date.now,
+      required: [true, "Date of birth is required"],
     },
     breed: {
       type: String,
