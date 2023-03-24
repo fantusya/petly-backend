@@ -1,25 +1,30 @@
-const { NotFound, BadRequest } = require("http-errors");
-const { User } = require("../../models");
+const { NotFound, Conflict } = require("http-errors");
+const { User, Notice } = require("../../models");
 
 const addToFavorites = async (req, res) => {
   const { _id } = req.user;
   const { id } = req.params;
-
   if (!id) {
     throw new NotFound(`Notice with id=${id} not found`);
   }
 
-  const updatedFavoriteNotices = await User.findOneAndUpdate(
-    { _id: _id },
-    { $push: { favoriteNotices: id } },
-    {
-      new: true,
-    }
-  );
-  if (!updatedFavoriteNotices) {
-    throw new BadRequest(`Notice is not added to favorite`);
+  const user = await User.findById({ _id });
+  const inFavorites = user.favoriteNotices.includes(id);
+  if (inFavorites) {
+    throw new Conflict(
+      `Notice with id: ${id} has been already added to favorites`
+    );
   }
-  res.json(updatedFavoriteNotices);
+
+  await User.findOneAndUpdate(
+    { _id },
+    { $push: { favoriteNotices: id } },
+    { new: true }
+  ).populate("favoriteNotices", "-createdAt -updatedAt");
+
+  const newFavorite = await Notice.findById({ _id: id });
+
+  res.json(newFavorite);
 };
 
 module.exports = addToFavorites;

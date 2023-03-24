@@ -12,17 +12,17 @@ const add = async (req, res) => {
   fs.unlink(upload);
 
   const notice = await Notice.findOne({ title, name, breed });
-
   if (notice) {
-    throw BadRequest("Notice already exist");
+    throw BadRequest("Such notice is already exist");
   }
-  const newNotice = await Notice.create({
+
+  await Notice.create({
     ...req.body,
     owner,
     photoURL,
   });
 
-  res.status(201).json(newNotice);
+  res.status(201).json({ message: "successfully created" });
 };
 
 module.exports = add;
