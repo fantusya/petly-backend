@@ -9,8 +9,22 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json", "multipart/form-data", "image/png"],
-  "produces": ["application/json", "multipart/form-data", "image/png"],
+  "consumes": [
+    "application/json",
+    "multipart/form-data",
+    "image/png",
+    "image/jpg",
+    "image/gif",
+    "image/web"
+  ],
+  "produces": [
+    "application/json",
+    "multipart/form-data",
+    "image/png",
+    "image/jpg",
+    "image/gif",
+    "image/web"
+  ],
   "servers": [
     { "url": "http://localhost:3030", "description": "Local" },
     {
@@ -21,11 +35,11 @@
   "tags": [
     {
       "name": "Users",
-      "description": "Users endpoints"
+      "description": "Everything about user authentication"
     },
     {
       "name": "Our Friends",
-      "description": "Services-sidebar endpoints"
+      "description": "Our Friends endpoints"
     },
     {
       "name": "News",
@@ -115,6 +129,62 @@
           },
           "401": {
             "description": "Email or password is wrong"
+          },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+
+    "/api/users/refresh": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Refresh user token",
+
+        "parameters": [],
+
+        "requestBody": {
+          "description": "Refresh token",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWQ5NTYwY2FmNDU2N2FhMTNlNmRmNyIsImlhdCI6MTY3OTY2MDcxMywiZXhwIjoxNjgwMjY1NTEzfQ.d045FdD9sHXq3JeEX-gS9PTAywIGtA67Cr_33qmylLw"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGE1MmY1MGJiMTVlOTM1NWRiMTMxYSIsImlhdCI6MTY3NTM3MTE2MSwiZXhwIjoxNjc1MzcyMDYxfQ.hesoLS6Xr6LZfjgpo-otp8eZCgCLoLKMWRYpojZ6cKE"
+                    },
+                    "refreshToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGE1MmY1MGJiMTVlOTM1NWRiMTMxYSIsImlhdCI6MTY3NTM3MTE2MSwiZXhwIjoxNjc1MzcyMDYxfQ.hesoLS6Xr6LZfjgpo-otp8eZCgCLoLKMWRYpojZ6cKE"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "403": {
+            "description": "Token invalid"
           },
           "500": { "description": "Server error" }
         }
@@ -320,61 +390,10 @@
       }
     },
 
-    "/api/notices/{categoryName}": {
-      "get": {
-        "tags": ["Notices"],
-        "summary": "Receiving ads by category",
-
-        "parameters": [
-          {
-            "name": "categoryName",
-            "in": "path",
-            "required": true,
-            "description": "Category Name",
-            "schema": {
-              "type": "string",
-              "example": "sell"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page pagination",
-            "type": "integer"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Limit for pagination",
-            "type": "integer"
-          }
-        ],
-
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/noticeSchema"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-
     "/api/notices": {
       "post": {
         "tags": ["Notices"],
-        "summary": "Adding ads according to the selected category",
+        "summary": "Adding notice according to the selected category",
 
         "security": [{ "Bearer": [] }],
 
@@ -394,8 +413,8 @@
                     "type": "string",
                     "description": "Jack"
                   },
-                  "dateOfBirth": {
-                    "type": "string",
+                  "birthDate": {
+                    "type": "date",
                     "description": "22.04.2018"
                   },
                   "breed": {
@@ -447,20 +466,143 @@
             "description": "Server error"
           }
         }
+      },
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Receiving ads of an authorized user created by the same user",
+
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
       }
     },
 
-    "/api/notices/find/{id}": {
+    "/api/notices/category/{categoryName}": {
       "get": {
         "tags": ["Notices"],
-        "summary": "Receiving one ad",
+        "summary": "Receiving noties by category",
+
+        "parameters": [
+          {
+            "name": "categoryName",
+            "in": "path",
+            "required": true,
+            "description": "Category Name",
+            "schema": {
+              "type": "string",
+              "example": "sell"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page pagination",
+            "type": "integer"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit for pagination",
+            "type": "integer"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noticeSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+
+    "/api/notices/category/:": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Search notice in category",
+
+        "parameters": [
+          {
+            "name": "categoryName",
+            "in": "path",
+            "required": true,
+            "description": "Category Name",
+            "schema": {
+              "type": "string",
+              "example": "sell"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page pagination",
+            "type": "integer"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit for pagination",
+            "type": "integer"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noticeSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+
+    "/api/notices/id/{id}": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Get one notice by id",
 
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "User's id",
+            "description": "Notice id",
             "schema": {
               "type": "string",
               "example": "63d93eb88066bf67f18c73f8"
@@ -486,13 +628,43 @@
             "description": "Server error"
           }
         }
+      },
+      "delete": {
+        "tags": ["Notices"],
+        "summary": "Deleting an ad of an authorized user",
+
+        "parameters": [
+          {
+            "in": "path",
+            "name": "noticeId",
+            "required": "true",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Notice was deleted"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Notice not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
       }
     },
 
-    "/api/notices/favorites": {
+    "/api/notices/favorite": {
       "get": {
         "tags": ["Notices"],
-        "summary": "Receiving ads of the authorized user added by him to the favorites",
+        "summary": "Receiving notices of the authorized user added by him to the favorites",
 
         "security": [{ "Bearer": [] }],
 
@@ -510,15 +682,15 @@
       }
     },
 
-    "/api/notices/{noticeId}/favorites": {
+    "/api/notices/favorite/{id}": {
       "post": {
         "tags": ["Notices"],
-        "summary": "Adding an authorized user's ad to favorites",
+        "summary": "Adding an authorized user's notice to favorites",
 
         "parameters": [
           {
             "in": "path",
-            "name": "noticeId",
+            "name": "id",
             "required": "true",
             "type": "string",
             "description": "",
@@ -565,63 +737,6 @@
         "responses": {
           "200": {
             "description": "Notice was deleted from Favorite"
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "404": {
-            "description": "Notice not found"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-
-    "/api/notices/own": {
-      "get": {
-        "tags": ["Notices"],
-        "summary": "Receiving ads of an authorized user created by the same user",
-
-        "security": [{ "Bearer": [] }],
-
-        "responses": {
-          "200": {
-            "description": "Successful operation"
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-
-    "/api/notices/{noticeId}": {
-      "delete": {
-        "tags": ["Notices"],
-        "summary": "Deleting an ad of an authorized user",
-
-        "parameters": [
-          {
-            "in": "path",
-            "name": "noticeId",
-            "required": "true",
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "security": [{ "Bearer": [] }],
-
-        "responses": {
-          "200": {
-            "description": "Notice was deleted"
           },
           "401": {
             "description": "Not authorized"
@@ -804,7 +919,7 @@
         }
       },
 
-      "RegistrationResponse": {
+      "SignupResponse": {
         "type": "array",
         "items": {
           "type": "object",
@@ -908,8 +1023,8 @@
             "description": "User's phone",
             "example": "+380981112233"
           },
-          "birthday": {
-            "type": "string",
+          "date": {
+            "type": "date",
             "description": "User's birthday"
           },
           "avatarURL": {
@@ -942,7 +1057,7 @@
             "description": "User's phone",
             "example": "+380981112233"
           },
-          "birthday": {
+          "date": {
             "type": "string",
             "description": "User's birthday"
           }
@@ -952,16 +1067,17 @@
       "GetUserInfoResponse": {
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "User Test"
+          },
           "email": {
             "type": "string",
             "description": "User's email",
             "example": "usertest@gmail.com"
           },
-          "name": {
-            "type": "string",
-            "description": "User's name",
-            "example": "Boris Johnson"
-          },
+
           "city": {
             "type": "string",
             "description": "User's city and region",
@@ -972,61 +1088,80 @@
             "description": "User's phone",
             "example": "+380981112233"
           },
-          "birthday": {
+          "date": {
             "type": "string",
             "description": "User's birthday"
           },
           "avatarURL": {
             "type": "string",
             "description": "avatar URL"
+          },
+          "myPets": {
+            "type": "array",
+            "description": "New registered User's myPent's array is empty"
           }
         }
       },
 
       "GetFriendsRequest": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          },
-          "addressUrl": {
-            "type": "string"
-          },
-          "imageUrl": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "workDays": {
-            "type": "object"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "addressUrl": {
+              "type": "string"
+            },
+            "imageUrl": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "workDays": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "phone": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
           }
         }
       },
 
       "GetNewsResponse": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "date": {
-            "type": "string"
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            }
           }
         }
       },
@@ -1054,7 +1189,7 @@
 
       "noticeSchema": {
         "type": "object",
-        "required": ["tittle", "sex", "location", "category"],
+        "required": ["title", "sex", "location", "category"],
         "properties": {
           "tittle": {
             "type": "string"
