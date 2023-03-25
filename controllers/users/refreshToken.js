@@ -8,6 +8,7 @@ const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const refreshToken = async (req, res) => {
   const { refreshToken: token } = req.body;
+  console.log("refreshToken", refreshToken);
   try {
     const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
 
