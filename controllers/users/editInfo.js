@@ -20,11 +20,11 @@ const editInfo = async (req, res) => {
     }
   }
 
-  const updatedUser = await User.findByIdAndUpdate({ _id: user.id }, body, {
+  await User.findByIdAndUpdate({ _id: user.id }, body, {
     new: true,
   });
 
-  res.json(updatedUser);
+  res.json(body);
 };
 
 module.exports = editInfo;

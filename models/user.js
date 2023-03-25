@@ -43,7 +43,7 @@ const userSchema = new Schema(
       match: [phoneRegexp, "Please enter a valid phone number"],
     },
 
-    date: {
+    birthDate: {
       type: Date,
       default: null,
     },
@@ -93,7 +93,7 @@ const joiLoginSchema = Joi.object({
 
 const joiEditInfoSchema = Joi.object({
   email: Joi.string().min(12).max(50).pattern(emailRegexp),
-  date: Joi.date(),
+  birthDate: Joi.date(),
   name: Joi.string().pattern(nameRegexp),
   city: Joi.string(),
   phone: Joi.string().pattern(phoneRegexp),

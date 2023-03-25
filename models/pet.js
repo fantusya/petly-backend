@@ -23,7 +23,7 @@ const petSchema = Schema(
       type: String,
       required: [true, "Photo of the pet is required."],
     },
-    date: {
+    birthDate: {
       type: Date,
       default: Date.now,
       required: [true, "Date of birth of the pet is required."],
