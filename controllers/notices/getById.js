@@ -13,7 +13,7 @@ const getById = async (req, res) => {
       skip,
       limit: Number(limit),
     }
-  ).populate("owner", "_id name email");
+  ).populate("owner", "_id email phone");
   if (!foundNotice) {
     throw new NotFound(`Notice with id=${id} not found`);
   }

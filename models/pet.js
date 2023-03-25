@@ -25,7 +25,6 @@ const petSchema = Schema(
     },
     birthDate: {
       type: Date,
-      default: Date.now,
       required: [true, "Date of birth of the pet is required."],
     },
     comments: {

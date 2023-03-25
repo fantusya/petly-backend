@@ -29,14 +29,19 @@ router.get(
 );
 
 router.post("/signup", validation(joiRegisterSchema), ctrlWrapper(ctrl.signUp));
+
 router.post("/login", validation(joiLoginSchema), ctrlWrapper(ctrl.logIn));
+
 router.post(
   "/refresh",
   validation(joiRefreshTokenSchema),
   ctrlWrapper(ctrl.refreshToken)
 );
+
 router.get("/current", auth, ctrlWrapper(ctrl.getCurrent));
+
 router.get("/logout", auth, ctrlWrapper(ctrl.logOut));
+
 router.patch(
   "/edit",
   auth,

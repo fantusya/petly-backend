@@ -20,7 +20,7 @@ const auth = async (req, res, next) => {
     if (!user || !user.accessToken) {
       throw new Unauthorized("Not authorized");
     }
-    console.log("USER", req.user);
+
     req.user = user;
     next();
   } catch (error) {
