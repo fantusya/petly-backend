@@ -8,19 +8,15 @@ const citySchema = Schema(
     },
     state: {
       type: String,
-      required: true,
     },
     county: {
       type: String,
-      required: true,
     },
     useCounty: {
       type: String,
-      required: true,
     },
     type: {
       type: String,
-      required: true,
     },
   },
   {

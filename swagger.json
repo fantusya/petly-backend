@@ -383,8 +383,8 @@
       "post": {
         "tags": ["Notices"],
         "summary": "Adding notice according to the selected category",
-        "parameters": [],
         "security": [{ "Bearer": [] }],
+        "parameters": [],
         "requestBody": {
           "description": "Notice object",
           "required": true,
@@ -536,7 +536,7 @@
       }
     },
 
-    "/api/notices/category/{category}/{search}/": {
+    "/api/notices/category/{category}/{search}": {
       "get": {
         "tags": ["Notices"],
         "summary": "Search notice in category",
@@ -605,7 +605,6 @@
       "get": {
         "tags": ["Notices"],
         "summary": "Get one notice by id",
-
         "parameters": [
           {
             "name": "id",
@@ -641,6 +640,7 @@
       "delete": {
         "tags": ["Notices"],
         "summary": "Deleting an ad of an authorized user",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
             "name": "id",
@@ -653,7 +653,6 @@
             }
           }
         ],
-        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -715,6 +714,7 @@
       "post": {
         "tags": ["Notices"],
         "summary": "Adding an authorized user's notice to favorites",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
             "in": "path",
@@ -728,7 +728,6 @@
             }
           }
         ],
-        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -752,6 +751,7 @@
       "delete": {
         "tags": ["Notices"],
         "summary": "Deletion of the ad of the authorized user added to the favorites",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
             "in": "path",
@@ -765,7 +765,6 @@
             }
           }
         ],
-        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -804,57 +803,37 @@
       "post": {
         "tags": ["Pets"],
         "summary": "Add animal card",
-
+        "parameters": [],
         "security": [{ "Bearer": [] }],
-
         "requestBody": {
           "description": "Pets object",
           "required": true,
           "content": {
-            "multipart/form-data:": {
+            "multipart/form-data": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "Jack"
-                  },
-                  "breed": {
-                    "type": "string",
-                    "description": "Basenji"
-                  },
-                  "photoURL": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "File pets photo"
-                  },
-                  "birthDate": {
-                    "type": "date",
-                    "description": "22.04.2018"
-                  },
-                  "comment": {
-                    "type": "string",
-                    "description": "Comments: Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur   Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur  ipsum dolor sit amet, rem ipsum dolor sit amet,  ipsum sit"
-                  }
-                }
+                "$ref": "#/components/schemas/PetRequestSchema"
               }
             }
           }
         },
-
         "responses": {
           "201": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/petsSchema"
+                  "$ref": "#/components/schemas/PetResponseSchema"
                 }
               }
             }
           },
+          "400": {
+            "description": "Bad Request (invalid request body)",
+            "content": {}
+          },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized",
+            "content": {}
           },
           "500": {
             "description": "Server error"
@@ -867,24 +846,36 @@
       "delete": {
         "tags": ["Pets"],
         "summary": "Removing the animal card",
-
         "security": [{ "Bearer": [] }],
-
         "parameters": [
           {
             "in": "path",
-            "name": "id",
-            "required": "true",
+            "name": "petId",
+            "required": true,
             "type": "string",
-            "description": ""
+            "description": "Pet's id",
+            "schema": {
+              "type": "string",
+              "example": "6419adf2fdacd0bab0258b92"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetResponseSchema"
+                }
+              }
+            }
           },
           "401": {
             "description": "Not authorized"
+          },
+          "404": {
+            "description": "Pet with id not found"
           },
           "500": {
             "description": "Server error"
@@ -893,31 +884,33 @@
       }
     },
 
-    "/api/cities/{cityName}": {
+    "/api/cities/{query}": {
       "get": {
         "tags": ["Cities"],
         "summary": "Add city name and location in Register form",
-        "consumes": "application/json",
-
-        "parameters": [],
-        "requestBody": {
-          "description": "User's city and region",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetCitiesRequest"
-              }
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "description": "City Name in search query",
+            "schema": {
+              "type": "string",
+              "example": "Бро"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetCitiesResponse"
+                  "type": "object",
+                  "properties": {
+                    "cityName": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -1067,8 +1060,10 @@
             "example": "+380981112233"
           },
           "birthDate": {
-            "type": "date",
-            "description": "User's birthday"
+            "type": "string",
+            "format": "dateTime",
+            "description": "Users's birthday",
+            "example": "2023-03-21T13:15:30.063Z"
           },
           "avatarURL": {
             "type": "string",
@@ -1101,9 +1096,10 @@
             "example": "+380981112233"
           },
           "birthDate": {
-            "type": "date",
-            "description": "New user's birthday",
-            "example": "11.11.93"
+            "type": "string",
+            "format": "dateTime",
+            "description": "User's new date birthday",
+            "example": "2023-03-21T13:15:30.063Z"
           }
         }
       },
@@ -1134,7 +1130,9 @@
           },
           "birthDate": {
             "type": "string",
-            "description": "User's birthday"
+            "format": "dateTime",
+            "description": "Users's birthday",
+            "example": "2023-03-21T13:15:30.063Z"
           },
           "avatarURL": {
             "type": "string",
@@ -1226,27 +1224,6 @@
         }
       },
 
-      "GetCitiesRequest": {
-        "type": "object",
-        "required": "cityName",
-        "properties": {
-          "cityName": {
-            "type": "string",
-            "description": "User's city and region",
-            "example": "Brovary, Kyiv"
-          }
-        }
-      },
-
-      "GetCitiesResponse": {
-        "type": "object",
-        "properties": {
-          "cityName": {
-            "type": "string"
-          }
-        }
-      },
-
       "NewNoticeRequest": {
         "type": "object",
         "required": [
@@ -1274,9 +1251,10 @@
             "example": "Tom"
           },
           "birthDate": {
-            "type": "date",
+            "type": "string",
+            "format": "dateTime",
             "description": "Pet's birthday",
-            "example": "12.01.2022"
+            "example": "2023-03-21T13:15:30.063Z"
           },
           "breed": {
             "type": "string",
@@ -1311,9 +1289,9 @@
         },
         "example": {
           "category": "sell",
-          "title": "Sell cat",
+          "title": "Sell a cat",
           "name": "Tom",
-          "date": "15.06.2020",
+          "birthDate": "2023-03-21T13:15:30.063Z",
           "breed": "British Shorthair",
           "sex": "male",
           "location": "Brovary, Kyiv",
@@ -1350,8 +1328,9 @@
             },
             "birthDate": {
               "type": "string",
+              "format": "dateTime",
               "description": "Pet's birthday",
-              "example": "10.11.2021"
+              "example": "2023-03-21T13:15:30.063Z"
             },
             "breed": {
               "type": "string",
@@ -1411,7 +1390,7 @@
             {
               "_id": "63f330d345cc47c53a8fd34e",
               "category": "sell",
-              "title": "Sell cat",
+              "title": "Sell a cat",
               "name": "Tom",
               "birthDate": "2022-11-30T22:00:00.000Z",
               "breed": "British Shorthair",
@@ -1429,11 +1408,11 @@
             {
               "_id": "63f330d345cc47c53a8fd34e",
               "category": "sell",
-              "title": "Sell cute citty",
-              "name": "Tom",
+              "title": "Sell a cute citty",
+              "name": "Toma",
               "birthDate": "2021-10-30T22:00:00.000Z",
               "breed": "British Shorthair",
-              "sex": "male",
+              "sex": "female",
               "location": "Brovary, Kyiv",
               "price": 500,
               "image": "http://res.cloudinary.com/dtk7nhyzp/image/upload/h_150,w_100/nils%20cat.png",
@@ -1450,10 +1429,19 @@
 
       "NoticeSchema": {
         "type": "object",
+        "required": [
+          "category",
+          "title",
+          "name",
+          "birthDate",
+          "breed",
+          "sex",
+          "comments"
+        ],
         "properties": {
           "_id": {
             "type": "string",
-            "description": "Pet's id",
+            "description": "Notice id",
             "example": "63f72058bbba3338d0016353"
           },
           "category": {
@@ -1473,8 +1461,9 @@
           },
           "birthDate": {
             "type": "string",
+            "format": "dateTime",
             "description": "Pet's birthday",
-            "example": "10.11.2021"
+            "example": "2023-03-21T13:15:30.063Z"
           },
           "breed": {
             "type": "string",
@@ -1531,9 +1520,9 @@
         "example": {
           "_id": "63f330d345cc47c53a8fd34e",
           "category": "sell",
-          "title": "Sell cat",
+          "title": "Sell a cat",
           "name": "Tom",
-          "birthDate": "10.11.2021",
+          "birthDate": "2022-11-30T22:00:00.000Z",
           "breed": "British Shorthair",
           "sex": "male",
           "location": "Brovary, Kyiv",
@@ -1573,8 +1562,9 @@
           },
           "birthDate": {
             "type": "string",
+            "format": "dateTime",
             "description": "Pet's birthday",
-            "example": "10.11.2021"
+            "example": "2023-03-21T13:15:30.063Z"
           },
           "breed": {
             "type": "string",
@@ -1625,9 +1615,9 @@
         "example": {
           "_id": "63f330d345cc47c53a8fd34e",
           "category": "sell",
-          "title": "Sell cat",
+          "title": "Sell a cat",
           "name": "Tom",
-          "birthDate": "10.11.2021",
+          "birthDate": "2022-11-30T22:00:00.000Z",
           "breed": "British Shorthair",
           "sex": "male",
           "location": "Brovary, Kyiv",
@@ -1667,8 +1657,9 @@
             },
             "birthDate": {
               "type": "string",
+              "format": "dateTime",
               "description": "Pet's birthday",
-              "example": "10.11.2021"
+              "example": "2023-03-21T13:15:30.063Z"
             },
             "breed": {
               "type": "string",
@@ -1712,9 +1703,9 @@
             {
               "_id": "63f330d345cc47c53a8fd34e",
               "category": "sell",
-              "title": "Sell cat",
+              "title": "Sell a cat",
               "name": "Tom",
-              "birthDate": "10.11.2021",
+              "birthDate": "2022-11-30T22:00:00.000Z",
               "breed": "British Shorthair",
               "sex": "male",
               "location": "Brovary, Kyiv",
@@ -1726,11 +1717,11 @@
             {
               "_id": "63f330d345cc47c53a8fd34e",
               "category": "sell",
-              "title": "Sell cat2",
-              "name": "Maks",
-              "birthDate": "05.03.2019",
+              "title": "Sell a cute citty",
+              "name": "Toma",
+              "birthDate": "2022-11-30T22:00:00.000Z",
               "breed": "Home",
-              "sex": "male",
+              "sex": "female",
               "location": "Brovary, Kyiv",
               "price": 500,
               "photoURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg",
@@ -1740,34 +1731,115 @@
           ]
         }
       },
-      "petsSchema": {
+
+      "PetRequestSchema": {
         "type": "object",
-        "required": [
-          "name",
-          "bread",
-          "photoURL",
-          "birthDate",
-          "comments",
-          "owner"
-        ],
+        "required": ["name", "breed", "photoURL", "birthDate", "comments"],
         "properties": {
           "name": {
             "type": "string",
-            "example": "Jack"
+            "description": "Pet's name",
+            "example": "Tom"
           },
-          "bread": {
+          "breed": {
             "type": "string",
-            "example": "jack-russell terrier"
+            "description": "Pet's breed",
+            "example": "British Shorthair"
           },
-          "birthDate": {
-            "type": "date",
-            "example": "22.04.2018"
+          "photoURL": {
+            "type": "string",
+            "description": "Pet's photo",
+            "format": "binary"
           },
 
+          "birthDate": {
+            "type": "string",
+            "format": "dateTime",
+            "description": "Pet's birthday",
+            "example": "2023-03-21T13:15:30.063Z"
+          },
           "comments": {
             "type": "string",
-            "example": "Comments: Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur   Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur  ipsum dolor sit amet, rem ipsum dolor sit amet,  ipsum sit, "
+            "description": "Some text about Pet",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
           }
+        },
+        "example": {
+          "_id": "63f330d345cc47c53a8fd34e",
+          "name": "Tom",
+          "breed": "British Shorthair",
+          "photoURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg",
+          "birthDate": "2023-03-21T13:15:30.063Z",
+          "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet",
+          "owner": {
+            "_id": "63f3306945cc47c53a8fd33d",
+            "email": "usertest@gmail.com",
+            "name": "User Test"
+          }
+        }
+      },
+
+      "PetResponseSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Pet's name",
+            "example": "Tom"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+            "example": "British Shorthair"
+          },
+          "photoURL": {
+            "type": "string",
+            "description": "Pet's photo",
+            "format": "binary"
+          },
+
+          "birthDate": {
+            "type": "string",
+            "format": "dateTime",
+            "description": "Pet's birthday",
+            "example": "2023-03-21T13:15:30.063Z"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Some text about Pet",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner's id",
+            "owner": "63f3306945cc47c53a8fd33d"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Pet's id",
+            "example": "63f72058bbba3338d0016353"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date of creation notice",
+            "format": "dateTime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date of update notice",
+            "format": "dateTime"
+          }
+        },
+        "example": {
+          "name": "Tom",
+          "breed": "British Shorthair",
+          "photoURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg",
+          "birthDate": "2023-03-21T13:15:30.063Z",
+          "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet",
+          "owner": "63f3306945cc47c53a8fd33d",
+          "_id": "63f330d345cc47c53a8fd34e",
+          "createdAt": "2023-03-21T13:15:30.063Z",
+          "updatedAt": "2023-03-21T13:15:30.063Z"
         }
       }
     },
