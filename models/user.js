@@ -15,26 +15,32 @@ const userSchema = new Schema(
       type: String,
       lowercase: true,
       required: [true, "Email is required"],
-      match: [emailRegexp, "Please enter a valid email"],
-      minLength: 12,
-      maxLength: 50,
+      unique: true,
+      minlength: 6,
+      maxLength: 63,
     },
 
     password: {
       type: String,
       required: [true, "Password is required"],
       match: [passwordRegexp, "Password can't contain white spaces"],
+      minlength: 7,
+      maxLength: 32,
     },
 
     name: {
       type: String,
       required: [true, "Name is required"],
       match: [nameRegexp, "Name must be only Arabic letters"],
+      minlength: 2,
+      maxLength: 25,
     },
 
     city: {
       type: String,
       required: [true, "City is required"],
+      minlength: 2,
+      maxLength: 50,
     },
 
     phone: {
@@ -77,23 +83,46 @@ userSchema.methods.comparePassword = function (password) {
 };
 
 const joiRegisterSchema = Joi.object({
-  email: Joi.string().min(12).max(50).pattern(emailRegexp).required(),
-  password: Joi.string().pattern(passwordRegexp).required(),
-  name: Joi.string().pattern(nameRegexp).required(),
-  city: Joi.string().required(),
+  email: Joi.string()
+    .email({ tlds: { deny: ["ru"] } })
+    .error(
+      (errors) =>
+        new Error("enter valid email: min 6, max 63 characters, except .ru")
+    )
+    .min(6)
+    .max(63)
+    .required(),
+  password: Joi.string().pattern(passwordRegexp).min(7).max(32).required(),
+  name: Joi.string().pattern(nameRegexp).min(2).max(25).required(),
+  city: Joi.string().min(2).max(50).required(),
   phone: Joi.string().pattern(phoneRegexp).required(),
 });
 
 const joiLoginSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().pattern(passwordRegexp).required(),
+  email: Joi.string()
+    .email({ tlds: { deny: ["ru"] } })
+    .error(
+      (errors) =>
+        new Error("enter valid email: min 6, max 63 characters, except .ru")
+    )
+    .min(6)
+    .max(63)
+    .required(),
+  password: Joi.string().pattern(passwordRegexp).min(7).max(32).required(),
 });
 
 const joiEditInfoSchema = Joi.object({
-  email: Joi.string().min(12).max(50).pattern(emailRegexp),
+  email: Joi.string()
+    .email({ tlds: { deny: ["ru"] } })
+    .error(
+      (errors) =>
+        new Error("enter valid email: min 6, max 63 characters, except .ru")
+    )
+    .min(6)
+    .max(63),
   birthDate: Joi.date(),
-  name: Joi.string().pattern(nameRegexp),
-  city: Joi.string(),
+  name: Joi.string().pattern(nameRegexp).min(2).max(25),
+  city: Joi.string().min(2).max(50),
   phone: Joi.string().pattern(phoneRegexp),
 });
 
