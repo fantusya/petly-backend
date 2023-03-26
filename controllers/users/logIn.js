@@ -30,12 +30,13 @@ const logIn = async (req, res) => {
     accessToken,
     refreshToken,
   });
-  const { name, phone, birthDate, city, avatarURL } = updatedUser;
+  const { name, phone, birthDate, city, avatarURL, _id } = updatedUser;
 
   res.json({
     accessToken,
     refreshToken,
     user: {
+      _id,
       email,
       name,
       phone,

@@ -15,6 +15,7 @@ const getCurrent = async (req, res) => {
   );
 
   res.json({
+    _id,
     name,
     email,
     city,
