@@ -192,7 +192,7 @@ mongoose
 //   },
 // ]);
 
-// const array = await City.find({ _id: 1 });
+// const array = await City.findOne({ _id: 1 });
 // console.log("array", array);
 // for (const item of array) {
 //   // console.log("CITY", item.city);

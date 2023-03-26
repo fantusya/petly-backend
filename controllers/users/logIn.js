@@ -25,24 +25,24 @@ const logIn = async (req, res) => {
     expiresIn: "7d",
   });
 
-  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
-  // const updatedUser = await User.findByIdAndUpdate(user._id, {
-  //   accessToken,
-  //   refreshToken,
-  // });
-  // const { name, phone, birthDate, city, avatarURL } = updatedUser;
+  // await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
+  const updatedUser = await User.findByIdAndUpdate(user._id, {
+    accessToken,
+    refreshToken,
+  });
+  const { name, phone, birthDate, city, avatarURL } = updatedUser;
 
   res.json({
     accessToken,
     refreshToken,
-    // user: {
-    //   email,
-    //   name,
-    //   phone,
-    //   birthDate,
-    //   city,
-    //   avatarURL,
-    // },
+    user: {
+      email,
+      name,
+      phone,
+      birthDate,
+      city,
+      avatarURL,
+    },
   });
 };
 
