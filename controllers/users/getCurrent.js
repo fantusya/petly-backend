@@ -1,7 +1,7 @@
 const { Pet } = require("../../models/pet");
 
 const getCurrent = async (req, res) => {
-  const { _id, name, email, city, phone, date, avatarURL } = req.user;
+  const { _id, name, email, city, phone, birthDate, avatarURL } = req.user;
 
   console.log("REQ.USER", req.user);
 
@@ -15,7 +15,7 @@ const getCurrent = async (req, res) => {
     email,
     city,
     phone,
-    date,
+    birthDate,
     avatarURL,
     myPets,
   });
