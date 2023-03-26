@@ -3,7 +3,7 @@ const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 
 const nameRegexp =
-  /^[a-zA-Zа-яА-ЯіІїЇґҐ\s]*[a-zA-Zа-яА-ЯіІїЇґҐ][a-zA-Zа-яА-ЯіІїЇґҐ\s]*$/;
+  /^[a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'\s]*[a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'][a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'\s]*$/;
 const emailRegexp =
   /^(?=.{1,63}$)(?=.{2,}@)[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // eslint-disable-line
 const passwordRegexp = /^\S+$/;
@@ -24,17 +24,22 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
       match: [passwordRegexp, "Password can't contain white spaces"],
+      minLength: 7,
+      maxLength: 32,
     },
 
     name: {
       type: String,
       required: [true, "Name is required"],
       match: [nameRegexp, "Name must be only Arabic letters"],
+      minLength: 2,
+      maxLength: 16,
     },
 
     city: {
       type: String,
       required: [true, "City is required"],
+      minLength: 2,
     },
 
     phone: {
@@ -78,9 +83,9 @@ userSchema.methods.comparePassword = function (password) {
 
 const joiRegisterSchema = Joi.object({
   email: Joi.string().min(12).max(50).pattern(emailRegexp).required(),
-  password: Joi.string().pattern(passwordRegexp).required(),
-  name: Joi.string().pattern(nameRegexp).required(),
-  city: Joi.string().required(),
+  password: Joi.string().min(7).max(32).pattern(passwordRegexp).required(),
+  name: Joi.string().min(2).max(16).pattern(nameRegexp).required(),
+  city: Joi.string().min(2).required(),
   phone: Joi.string().pattern(phoneRegexp).required(),
 });
 
@@ -92,8 +97,8 @@ const joiLoginSchema = Joi.object({
 const joiEditInfoSchema = Joi.object({
   email: Joi.string().min(12).max(50).pattern(emailRegexp),
   birthDate: Joi.date(),
-  name: Joi.string().pattern(nameRegexp),
-  city: Joi.string(),
+  name: Joi.string().min(2).max(16).pattern(nameRegexp),
+  city: Joi.string().min(2),
   phone: Joi.string().pattern(phoneRegexp),
 });
 
