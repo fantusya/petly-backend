@@ -1071,7 +1071,23 @@
           "myPets": {
             "type": "array",
             "description": "New registered User's myPent's array is empty"
+          },
+          "favorite": {
+            "type": "array",
+            "description": "New registered User's favorite array is empty"
           }
+        },
+        "example": {
+          "category": "sell",
+          "title": "Sell a cat",
+          "name": "Tom",
+          "birthDate": "2023-03-21T13:15:30.063Z",
+          "breed": "British Shorthair",
+          "sex": "male",
+          "location": "Brovary, Kyiv",
+          "price": 500,
+          "photoURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg",
+          "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
         }
       },
 
