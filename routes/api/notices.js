@@ -9,9 +9,11 @@ router.get("/category/:category", ctrlWrapper(ctrl.getByCategory)); // OK
 
 router.get("/id/:id", ctrlWrapper(ctrl.getById));
 
-router.post("/favorite/:id", auth, ctrlWrapper(ctrl.addToFavorites));
+router.delete("/id/:id", auth, ctrlWrapper(ctrl.removeById));
 
 router.get("/favorite", auth, ctrlWrapper(ctrl.getFavorite)); // OK
+
+router.post("/favorite/:id", auth, ctrlWrapper(ctrl.addToFavorites));
 
 router.delete("/favorite/:id", auth, ctrlWrapper(ctrl.removeFromFavorites));
 
@@ -24,7 +26,5 @@ router.post(
 ); // OK
 
 router.get("/", auth, ctrlWrapper(ctrl.getUserNotices)); // OK
-
-router.delete("/id/:id", auth, ctrlWrapper(ctrl.removeById));
 
 module.exports = router;
