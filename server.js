@@ -186,27 +186,27 @@ mongoose
 // console.log("translit", translit("Запоріжжя"));
 
 // const cities = async () => {
-  // await City.updateMany({}, [
-  //   {
-  //     $set: { " city_en ": translit("$city") },
-  //   },
-  // ]);
+// await City.updateMany({}, [
+//   {
+//     $set: { " city_en ": translit("$city") },
+//   },
+// ]);
 
-  // const array = await City.findOne({ _id: 1 });
-  // console.log("array", array);
-  // for (const item of array) {
-  //   // console.log("CITY", item.city);
-  //   await City.updateOne({ _id: 1 }, { city_en: translit(item.city) });
-  // }
+// const array = await City.findOne({ _id: 1 });
+// console.log("array", array);
+// for (const item of array) {
+//   // console.log("CITY", item.city);
+//   await City.updateOne({ _id: 1 }, { city_en: translit(item.city) });
+// }
 
-  // await City.updateMany(
-  //   {},
-  //   {
-  //     $set: { " city_en ": { $concat: translit($city) } },
-  //   }
-  // );
+// await City.updateMany(
+//   {},
+//   {
+//     $set: { " city_en ": { $concat: translit($city) } },
+//   }
+// );
 
-  // await City.updateMany({}, { city_en: translit("$city") });
-};
+// await City.updateMany({}, { city_en: translit("$city") });
+// };
 
 // cities();
