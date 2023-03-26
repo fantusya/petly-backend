@@ -10,7 +10,7 @@ const getCities = async (req, res) => {
     "stateEn cityEn countyEn useCounty"
   );
 
-  console.log("city", city);
+  // console.log("city", city);
   // console.log(city.map((item) => console.log("item", item.city)));
 
   if (!city) {
