@@ -4,8 +4,8 @@ const bcrypt = require("bcryptjs");
 
 const nameRegexp =
   /^[a-zA-Zа-яА-ЯіІїЇґҐ\s]*[a-zA-Zа-яА-ЯіІїЇґҐ][a-zA-Zа-яА-ЯіІїЇґҐ\s]*$/;
-const emailRegexp =
-  /^(?=.{1,63}$)(?=.{2,}@)[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // eslint-disable-line
+// const emailRegexp =
+//   /^(?=.{1,63}$)(?=.{2,}@)[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // eslint-disable-line
 const passwordRegexp = /^\S+$/;
 const phoneRegexp = /^\+380\d{9}$/;
 
