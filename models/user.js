@@ -4,8 +4,8 @@ const bcrypt = require("bcryptjs");
 
 const nameRegexp =
   /^[a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'\s]*[a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'][a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'\s]*$/;
-const emailRegexp =
-  /^(?=.{1,63}$)(?=.{2,}@)[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // eslint-disable-line
+// const emailRegexp =
+//   /^(?=.{1,63}$)(?=.{2,}@)[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegexp = /^\S+$/;
 const phoneRegexp = /^\+380\d{9}$/;
 
@@ -15,7 +15,7 @@ const userSchema = new Schema(
       type: String,
       lowercase: true,
       required: [true, "Email is required"],
-      match: [emailRegexp, "Please enter a valid email"],
+      // match: [emailRegexp, "Please enter a valid email"],
       minLength: 12,
       maxLength: 50,
     },
@@ -82,7 +82,16 @@ userSchema.methods.comparePassword = function (password) {
 };
 
 const joiRegisterSchema = Joi.object({
-  email: Joi.string().min(12).max(50).pattern(emailRegexp).required(),
+  email: Joi.string()
+    .email({ tlds: { deny: ["ru"] } })
+    .error(
+      (errors) =>
+        new Error("enter valid email: min 6, max 63 characters, except .ru")
+    )
+    .min(12)
+    .max(50)
+    .required(),
+  // email: Joi.string().min(12).max(50).pattern(emailRegexp).required(),
   password: Joi.string().min(7).max(32).pattern(passwordRegexp).required(),
   name: Joi.string().min(2).max(16).pattern(nameRegexp).required(),
   city: Joi.string().min(2).required(),
@@ -90,12 +99,28 @@ const joiRegisterSchema = Joi.object({
 });
 
 const joiLoginSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
+  email: Joi.string()
+    .email({ tlds: { deny: ["ru"] } })
+    .error(
+      (errors) =>
+        new Error("enter valid email: min 6, max 63 characters, except .ru")
+    )
+    .min(12)
+    .max(50)
+    .required(),
   password: Joi.string().pattern(passwordRegexp).required(),
 });
 
 const joiEditInfoSchema = Joi.object({
-  email: Joi.string().min(12).max(50).pattern(emailRegexp),
+  email: Joi.string()
+    .email({ tlds: { deny: ["ru"] } })
+    .error(
+      (errors) =>
+        new Error("enter valid email: min 6, max 63 characters, except .ru")
+    )
+    .min(12)
+    .max(50)
+    .required(),
   birthDate: Joi.date(),
   name: Joi.string().min(2).max(16).pattern(nameRegexp),
   city: Joi.string().min(2),
