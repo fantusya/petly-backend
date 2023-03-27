@@ -28,7 +28,7 @@
   "servers": [
     { "url": "http://localhost:3030", "description": "Local" },
     {
-      "url": "https://uninterested-hose-newt.cyclic.app",
+      "url": "https://petly-gd7x.onrender.com",
       "description": "Main"
     }
   ],
@@ -201,7 +201,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserInfoResponse"
+                  "$ref": "#/components/schemas/CurrentUserResponse"
                 }
               }
             }
@@ -864,29 +864,31 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "format": "email",
-            "example": "usertest@gmail.com"
+            "format": "email"
           },
           "password": {
             "type": "string",
-            "description": "User's password",
-            "example": "QWerty123"
+            "description": "User's password"
           },
           "name": {
             "type": "string",
-            "description": "User's name",
-            "example": "User Test"
+            "description": "User's name"
           },
           "city": {
             "type": "string",
-            "description": "User's city and region",
-            "example": "Brovary, Kyiv"
+            "description": "User's city and region"
           },
           "phone": {
             "type": "string",
-            "description": "User's phone",
-            "example": "+380981112233"
+            "description": "User's phone"
           }
+        },
+        "example": {
+          "email": "usertest@gmail.com",
+          "password": "QWerty123",
+          "name": "User Test",
+          "city": "Brovary, Kyiv",
+          "phone": "+380981112233"
         }
       },
 
@@ -897,23 +899,19 @@
           "properties": {
             "name": {
               "type": "string",
-              "description": "User's name",
-              "example": "User Test"
+              "description": "User's name"
             },
             "email": {
               "type": "string",
-              "description": "User's email",
-              "example": "usertest@gmail.com"
+              "description": "User's email"
             },
             "token": {
               "type": "string",
-              "description": "token",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGE1MmY1MGJiMTVlOTM1NWRiMTMxYSIsImlhdCI6MTY3NTM3MTE2MSwiZXhwIjoxNjc1MzcyMDYxfQ.hesoLS6Xr6LZfjgpo-otp8eZCgCLoLKMWRYpojZ6cKE"
+              "description": "token"
             },
             "refreshToken": {
               "type": "string",
-              "description": "refreshToken",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGE1MmY1MGJiMTVlOTM1NWRiMTMxYSIsImlhdCI6MTY3NTM3MTE2MSwiZXhwIjoxNjc1MzcyMDYxfQ.hesoLS6Xr6LZfjgpo-otp8eZCgCLoLKMWRYpojZ6cKE"
+              "description": "refreshToken"
             }
           }
         },
@@ -949,55 +947,181 @@
           "properties": {
             "accessToken": {
               "type": "string",
-              "description": "accessToken",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWQ5NmZkMjFhOTE4MjNiY2NkYzYzYiIsImlhdCI6MTY3OTY4NjA4NSwiZXhwIjoxNjc5ODU4ODg1fQ.U-cK6jUuCnRJ9xzb2sV8sWDmRRAcqKAOYg6AJjc-ia0"
+              "description": "accessToken"
             },
             "refreshToken": {
               "type": "string",
-              "description": "refreshToken",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWQ5NmZkMjFhOTE4MjNiY2NkYzYzYiIsImlhdCI6MTY3OTY4NjA4NSwiZXhwIjoxNjgwMjkwODg1fQ.27gonetSCtebvuz0dgfYvgifZbOtRQlih3ix6wR7O3w"
+              "description": "refreshToken"
+            },
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "User's id"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name"
+              },
+              "phone": {
+                "type": "string",
+                "description": "User's phone number"
+              },
+              "birthDate": {
+                "type": "string",
+                "format": "dateTime",
+                "description": "Users's birthday"
+              },
+              "city": {
+                "type": "string",
+                "description": "New user's city and region"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "avatar URL"
+              }
             }
           }
         },
         "example": {
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWQ5NmZkMjFhOTE4MjNiY2NkYzYzYiIsImlhdCI6MTY3OTY4NjA4NSwiZXhwIjoxNjc5ODU4ODg1fQ.U-cK6jUuCnRJ9xzb2sV8sWDmRRAcqKAOYg6AJjc-ia0",
-          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWQ5NmZkMjFhOTE4MjNiY2NkYzYzYiIsImlhdCI6MTY3OTY4NjA4NSwiZXhwIjoxNjgwMjkwODg1fQ.27gonetSCtebvuz0dgfYvgifZbOtRQlih3ix6wR7O3w"
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWQ5NmZkMjFhOTE4MjNiY2NkYzYzYiIsImlhdCI6MTY3OTY4NjA4NSwiZXhwIjoxNjgwMjkwODg1fQ.27gonetSCtebvuz0dgfYvgifZbOtRQlih3ix6wR7O3w",
+          "user": {
+            "_id": "641c3b90861b0e0fbf7c0150",
+            "email": "ivan.roschin86@gmail.com",
+            "name": "Roschin",
+            "phone": "+380951983729",
+            "birthDate": "2023-03-21T13:15:30.063Z",
+            "city": "Kiev, Бровари",
+            "avatarURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg"
+          }
         }
       },
 
-      "GetUserInfoRequest": {
+      "CurrentUserResponse": {
+        "description": "Current User's information",
         "type": "object",
         "properties": {
-          "email": {
+          "_id": {
             "type": "string",
-            "description": "User's email",
-            "example": "usertest@gmail.com"
+            "description": "User's id"
           },
           "name": {
             "type": "string",
-            "description": "User's name",
-            "example": "User Test"
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email"
           },
           "city": {
             "type": "string",
-            "description": "User's city and region",
-            "example": "Brovary, Kyiv"
+            "description": "User's city and region"
           },
           "phone": {
             "type": "string",
-            "description": "User's phone",
-            "example": "+380981112233"
+            "description": "User's phone"
           },
           "birthDate": {
             "type": "string",
             "format": "dateTime",
-            "description": "Users's birthday",
-            "example": "2023-03-21T13:15:30.063Z"
+            "description": "Users's birthday"
           },
           "avatarURL": {
             "type": "string",
-            "description": "avatar URL"
+            "format": "binary"
+          },
+          "myPets": {
+            "description": "New registered User's myPent's array is empty",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Pet's id"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Pet's name"
+                },
+                "breed": {
+                  "type": "string",
+                  "description": "Pet's breed"
+                },
+                "photoURL": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "Pet's photo"
+                },
+                "birthDate": {
+                  "type": "string",
+                  "format": "dateTime",
+                  "description": "Pet's birthday"
+                },
+                "comments": {
+                  "type": "string",
+                  "description": "Some text about Pet"
+                },
+                "owner": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "description": "User's id"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User's email"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "User's name"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "favorite": {
+            "description": "New registered User's favorite array is empty",
+            "type": "array",
+            "items": {
+              "_id": {
+                "type": "string",
+                "description": "Notice's id"
+              }
+            }
           }
+        },
+        "example": {
+          "_id": "641c3b90861b0e0fbf7c0150",
+          "name": "User Test",
+          "email": "usertest@gmail.com",
+          "city": "Brovary, Kyiv",
+          "phone": "+380951983729",
+          "birthDate": "2023-03-21T13:15:30.063Z",
+          "avatarURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg",
+          "myPets": [
+            {
+              "_id": "64205665b46681f3e41316b2",
+              "name": "Tom",
+              "breed": "British",
+              "photoURL": "http://res.cloudinary.com/dpjmbj5vx/image/upload/v1679403024/petsImages/licensed-image.jpg",
+              "birthDate": "2023-03-21T13:15:30.063Z",
+              "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet",
+              "owner": {
+                "_id": "641c3b90861b0e0fbf7c0150",
+                "email": "usertest@gmail.com",
+                "name": "User Test"
+              }
+            }
+          ],
+          "favorites": ["6418cb61dea99f728afd5b48", "6418cb72dea99f728afd5b50"]
         }
       },
 
@@ -1007,87 +1131,29 @@
           "email": {
             "type": "string",
             "description": "New user's email",
-            "example": "usertest@gmail.com"
+            "example": "newusertest@gmail.com"
           },
           "name": {
             "type": "string",
             "description": "New user's name",
-            "example": "new User Test"
+            "example": "newusertest@gmail.com"
           },
           "city": {
             "type": "string",
             "description": "New user's city and region",
-            "example": "Brovary, Kyiv"
+            "example": "New User's City"
           },
           "phone": {
             "type": "string",
             "description": "New user's phone",
-            "example": "+380981112233"
+            "example": "+30981111111"
           },
           "birthDate": {
             "type": "string",
             "format": "dateTime",
             "description": "User's new date birthday",
-            "example": "2023-03-21T13:15:30.063Z"
+            "example": "2023-03-20T21:08:49.033+00:00"
           }
-        }
-      },
-
-      "GetUserInfoResponse": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "User's name",
-            "example": "User Test"
-          },
-          "email": {
-            "type": "string",
-            "description": "User's email",
-            "example": "usertest@gmail.com"
-          },
-
-          "city": {
-            "type": "string",
-            "description": "User's city and region",
-            "example": "Brovary, Kyiv"
-          },
-          "phone": {
-            "type": "string",
-            "description": "User's phone",
-            "example": "+380981112233"
-          },
-          "birthDate": {
-            "type": "string",
-            "format": "dateTime",
-            "description": "Users's birthday",
-            "example": "2023-03-21T13:15:30.063Z"
-          },
-          "avatarURL": {
-            "type": "string",
-            "format": "binary",
-            "description": "avatar URL"
-          },
-          "myPets": {
-            "type": "array",
-            "description": "New registered User's myPent's array is empty"
-          },
-          "favorite": {
-            "type": "array",
-            "description": "New registered User's favorite array is empty"
-          }
-        },
-        "example": {
-          "category": "sell",
-          "title": "Sell a cat",
-          "name": "Tom",
-          "birthDate": "2023-03-21T13:15:30.063Z",
-          "breed": "British Shorthair",
-          "sex": "male",
-          "location": "Brovary, Kyiv",
-          "price": 500,
-          "photoURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg",
-          "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
         }
       },
 
@@ -1142,7 +1208,53 @@
               "type": "string"
             }
           }
-        }
+        },
+        "example": [
+          {
+            "_id": "641619c3f5d2e4b7ee02e9ac",
+            "title": "Притулок для бездомних тварин 'Сіріус'",
+            "url": "https://dogcat.com.ua",
+            "addressUrl": "https://goo.gl/maps/iq8NXEUf31EAQCzc6",
+            "imageUrl": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_287.png",
+            "address": "Fedorivka, Kyiv Oblast, Ukraine, 07372",
+            "workDays": [
+              {
+                "_id": "64219b0b528e446bc31a99ca",
+                "isOpen": false
+              },
+              {
+                "_id": "64219b0b528e446bc31a99cb",
+                "isOpen": false
+              },
+              {
+                "_id": "64219b0b528e446bc31a99cc",
+                "isOpen": false
+              },
+              {
+                "_id": "64219b0b528e446bc31a99cd",
+                "isOpen": false
+              },
+              {
+                "_id": "64219b0b528e446bc31a99ce",
+                "isOpen": false
+              },
+              {
+                "_id": "64219b0b528e446bc31a99cf",
+                "isOpen": true,
+                "from": "11:00",
+                "to": "16:00"
+              },
+              {
+                "_id": "64219b0b528e446bc31a99d0",
+                "isOpen": true,
+                "from": "11:00",
+                "to": "16:00"
+              }
+            ],
+            "phone": "+380931934069",
+            "email": null
+          }
+        ]
       },
 
       "GetNewsResponse": {
@@ -1166,7 +1278,23 @@
               "type": "string"
             }
           }
-        }
+        },
+        "example": [
+          {
+            "_id": "641619a3f5d2e4b7ee02e997",
+            "title": "Some Title",
+            "url": "https://www.kmlvm.com.ua/v-den-veterynara-v-stolytsi-projde-bezkoshtovnyj-trening-z-nadannya-pershoyi-dopomogy-tvarynam/",
+            "description": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet",
+            "date": "2022-08-12"
+          },
+          {
+            "_id": "111111a3f5d2e4b7ee02e997",
+            "title": "Some Title 2",
+            "url": "https://www.kmlvm.com.ua/v-den-veterynara-v-stolytsi-projde-bezkoshtovnyj-trening-z-nadannya-pershoyi-dopomogy-tvarynam/",
+            "description": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet",
+            "date": "2022-08-12"
+          }
+        ]
       },
 
       "NewNoticeRequest": {
@@ -1182,44 +1310,36 @@
         "properties": {
           "category": {
             "type": "string",
-            "description": "Notice category must be one of: [sell/for-free/lost-found]",
-            "example": "for-free"
+            "description": "Notice category must be one of: [sell/for-free/lost-found]"
           },
           "title": {
             "type": "string",
-            "description": "Notice title",
-            "example": "Sell kat"
+            "description": "Notice title"
           },
           "name": {
             "type": "string",
-            "description": "Pet's name",
-            "example": "Tom"
+            "description": "Pet's name"
           },
           "birthDate": {
             "type": "string",
             "format": "dateTime",
-            "description": "Pet's birthday",
-            "example": "2023-03-21T13:15:30.063Z"
+            "description": "Pet's birthday"
           },
           "breed": {
             "type": "string",
-            "description": "Pet's breed",
-            "example": "British Shorthair"
+            "description": "Pet's breed"
           },
           "sex": {
             "type": "string",
-            "description": "Pet's sex must be male or female",
-            "example": "male"
+            "description": "Pet's sex must be male or female"
           },
           "location": {
             "type": "string",
-            "description": "Pet's location",
-            "example": "Brovary, Kyiv"
+            "description": "Pet's location"
           },
           "price": {
             "type": "integer",
-            "description": "Pet's price",
-            "example": "200"
+            "description": "Pet's price"
           },
           "photoURL": {
             "type": "string",
@@ -1228,8 +1348,7 @@
           },
           "comments": {
             "type": "string",
-            "description": "Some text about Pet",
-            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
+            "description": "Some text about Pet"
           }
         },
         "example": {
@@ -1487,59 +1606,48 @@
         "properties": {
           "_id": {
             "type": "string",
-            "description": "Pet's id",
-            "example": "63f72058bbba3338d0016353"
+            "description": "Pet's id"
           },
           "category": {
             "type": "string",
-            "description": "Pet's category can be sell, lost-found, for-free",
-            "example": "sell"
+            "description": "Pet's category can be sell, lost-found, for-free"
           },
           "title": {
             "type": "string",
-            "description": "Notices title",
-            "example": "Sell a cat"
+            "description": "Notices title"
           },
           "name": {
             "type": "string",
-            "description": "Pet's name",
-            "example": "Tom"
+            "description": "Pet's name"
           },
           "birthDate": {
             "type": "string",
             "format": "dateTime",
-            "description": "Pet's birthday",
-            "example": "2023-03-21T13:15:30.063Z"
+            "description": "Pet's birthday"
           },
           "breed": {
             "type": "string",
-            "description": "Pet's breed",
-            "example": "British Shorthair"
+            "description": "Pet's breed"
           },
           "sex": {
             "type": "string",
-            "description": "Pet's sex must be male or female",
-            "example": "male"
+            "description": "Pet's sex must be male or female"
           },
           "location": {
             "type": "string",
-            "description": "Pet's location",
-            "example": "Brovary, Kyiv"
+            "description": "Pet's location"
           },
           "price": {
             "type": "integer",
-            "description": "Pet's price",
-            "example": "500"
+            "description": "Pet's price"
           },
           "photoURL": {
             "type": "string",
-            "description": "Pet's photo",
-            "photoURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg"
+            "description": "Pet's photo"
           },
           "comments": {
             "type": "string",
-            "description": "Some text about Pet",
-            "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
+            "description": "Some text about Pet"
           },
           "owner": {
             "type": "string",
@@ -1548,13 +1656,13 @@
           },
           "createdAt": {
             "type": "string",
-            "description": "Date of creation notice",
-            "format": "dateTime"
+            "format": "dateTime",
+            "description": "Date of creation notice"
           },
           "updatedAt": {
             "type": "string",
-            "description": "Date of update notice",
-            "format": "dateTime"
+            "format": "dateTime",
+            "description": "Date of update notice"
           }
         },
         "example": {
@@ -1582,64 +1690,52 @@
           "properties": {
             "_id": {
               "type": "string",
-              "description": "Pet's id",
-              "example": "63f72058bbba3338d0016353"
+              "description": "Pet's id"
             },
             "category": {
               "type": "string",
-              "description": "Pet's category can be sell, lost-found, for-free",
-              "example": "sell"
+              "description": "Pet's category can be one of [sell/lost-found/for-free]"
             },
             "title": {
               "type": "string",
-              "description": "Notices title",
-              "example": "Sell a cat"
+              "description": "Notices title"
             },
             "name": {
               "type": "string",
-              "description": "Pet's name",
-              "example": "Tom"
+              "description": "Pet's name"
             },
             "birthDate": {
               "type": "string",
               "format": "dateTime",
-              "description": "Pet's birthday",
-              "example": "2023-03-21T13:15:30.063Z"
+              "description": "Pet's birthday"
             },
             "breed": {
               "type": "string",
-              "description": "Pet's breed",
-              "example": "British Shorthair"
+              "description": "Pet's breed"
             },
             "sex": {
               "type": "string",
-              "description": "Pet's sex must be male or female",
-              "example": "male"
+              "description": "Pet's sex must be male or female"
             },
             "location": {
               "type": "string",
-              "description": "Pet's location",
-              "example": "Brovary, Kyiv"
+              "description": "Pet's location"
             },
             "price": {
               "type": "integer",
-              "description": "Pet's price",
-              "example": "500"
+              "description": "Pet's price"
             },
             "photoURL": {
               "type": "string",
-              "description": "Pet's photo",
-              "photoURL": "https://res.cloudinary.com/dpjmbj5vx/image/upload/v1679256350/noticeImages/licensed-image.jpg"
+              "description": "Pet's photo"
             },
             "comments": {
               "type": "string",
-              "description": "Some text about Pet",
-              "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
+              "description": "Some text about Pet"
             },
             "owner": {
               "type": "string",
-              "description": "Owner's id",
-              "owner": "63f3306945cc47c53a8fd33d"
+              "description": "Owner's id"
             }
           }
         },
@@ -1683,13 +1779,11 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Pet's name",
-            "example": "Tom"
+            "description": "Pet's name"
           },
           "breed": {
             "type": "string",
-            "description": "Pet's breed",
-            "example": "British Shorthair"
+            "description": "Pet's breed"
           },
           "photoURL": {
             "type": "string",
@@ -1700,13 +1794,11 @@
           "birthDate": {
             "type": "string",
             "format": "dateTime",
-            "description": "Pet's birthday",
-            "example": "2023-03-21T13:15:30.063Z"
+            "description": "Pet's birthday"
           },
           "comments": {
             "type": "string",
-            "description": "Some text about Pet",
-            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
+            "description": "Some text about Pet"
           }
         },
         "example": {
@@ -1729,13 +1821,11 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Pet's name",
-            "example": "Tom"
+            "description": "Pet's name"
           },
           "breed": {
             "type": "string",
-            "description": "Pet's breed",
-            "example": "British Shorthair"
+            "description": "Pet's breed"
           },
           "photoURL": {
             "type": "string",
@@ -1746,23 +1836,19 @@
           "birthDate": {
             "type": "string",
             "format": "dateTime",
-            "description": "Pet's birthday",
-            "example": "2023-03-21T13:15:30.063Z"
+            "description": "Pet's birthday"
           },
           "comments": {
             "type": "string",
-            "description": "Some text about Pet",
-            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet"
+            "description": "Some text about Pet"
           },
           "owner": {
             "type": "string",
-            "description": "Owner's id",
-            "owner": "63f3306945cc47c53a8fd33d"
+            "description": "Owner's id"
           },
           "_id": {
             "type": "string",
-            "description": "Pet's id",
-            "example": "63f72058bbba3338d0016353"
+            "description": "Pet's id"
           },
           "createdAt": {
             "type": "string",
