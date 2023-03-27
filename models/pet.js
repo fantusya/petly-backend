@@ -22,7 +22,8 @@ const petSchema = Schema(
     },
     photoURL: {
       type: String,
-      required: [true, "Photo of the pet is required."],
+      default: null,
+      // required: [true, "Photo of the pet is required."],
     },
     birthDate: {
       type: Date,
@@ -45,7 +46,7 @@ const petSchema = Schema(
 const joiPetAddSchema = Joi.object({
   name: Joi.string().min(2).max(16).pattern(lettersRegex).required(),
   breed: Joi.string().min(2).max(24).pattern(lettersRegex).required(),
-  // photoURL: Joi.string().required(),
+  photoURL: Joi.string(),
   birthDate: Joi.date().required(),
   comments: Joi.string().min(8).max(120).required(),
 });
