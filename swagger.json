@@ -28,7 +28,7 @@
   "servers": [
     { "url": "http://localhost:3030", "description": "Local" },
     {
-      "url": "https://uninterested-hose-newt.cyclic.app",
+      "url": "https://petly-gd7x.onrender.com",
       "description": "Main"
     }
   ],
