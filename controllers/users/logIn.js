@@ -20,29 +20,30 @@ const logIn = async (req, res) => {
   };
 
   // const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "2m" });
-  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "7d" });
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "1d" });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
     expiresIn: "7d",
   });
 
-  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
-  // const updatedUser = await User.findByIdAndUpdate(user._id, {
-  //   accessToken,
-  //   refreshToken,
-  // });
-  // const { name, phone, birthDate, city, avatarURL } = updatedUser;
+  // await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
+  const updatedUser = await User.findByIdAndUpdate(user._id, {
+    accessToken,
+    refreshToken,
+  });
+  const { name, phone, birthDate, city, avatarURL, _id } = updatedUser;
 
   res.json({
     accessToken,
     refreshToken,
-    // user: {
-    //   email,
-    //   name,
-    //   phone,
-    //   birthDate,
-    //   city,
-    //   avatarURL,
-    // },
+    user: {
+      _id,
+      email,
+      name,
+      phone,
+      birthDate,
+      city,
+      avatarURL,
+    },
   });
 };
 

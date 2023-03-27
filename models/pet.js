@@ -1,7 +1,8 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-const lettersRegex = /[a-zA-Zа-яА-ЯіІїЇґҐёЁєЄ]/;
+const lettersRegex =
+  /^[a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'\s]*[a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'][a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'\s]*$/;
 
 const petSchema = Schema(
   {
@@ -16,12 +17,13 @@ const petSchema = Schema(
       type: String,
       required: [true, "Breed is required."],
       minlength: 2,
-      maxlength: 16,
+      maxlength: 24,
       match: [lettersRegex, "Use only letters."],
     },
     photoURL: {
       type: String,
-      required: [true, "Photo of the pet is required."],
+      default: null,
+      // required: [true, "Photo of the pet is required."],
     },
     birthDate: {
       type: Date,
@@ -43,8 +45,8 @@ const petSchema = Schema(
 
 const joiPetAddSchema = Joi.object({
   name: Joi.string().min(2).max(16).pattern(lettersRegex).required(),
-  breed: Joi.string().min(2).max(16).pattern(lettersRegex).required(),
-  // photoURL: Joi.string().required(),
+  breed: Joi.string().min(2).max(24).pattern(lettersRegex).required(),
+  photoURL: Joi.string(),
   birthDate: Joi.date().required(),
   comments: Joi.string().min(8).max(120).required(),
 });

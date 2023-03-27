@@ -18,6 +18,15 @@ const citySchema = Schema(
     type: {
       type: String,
     },
+    stateEn: {
+      type: String,
+    },
+    cityEn: {
+      type: String,
+    },
+    countyEn: {
+      type: String,
+    },
   },
   {
     versionKey: false,
