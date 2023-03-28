@@ -99,9 +99,7 @@
       "post": {
         "tags": ["Users"],
         "summary": "User login",
-
         "parameters": [],
-
         "requestBody": {
           "description": "Login object",
           "required": true,
