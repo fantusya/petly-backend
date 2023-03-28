@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../../models");
 require("dotenv").config();
 
-const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY, FRONTEND_URL } = process.env;
+const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
+// , FRONTEND_URL
 
 const googleAuth = async (req, res) => {
   const { _id: id } = req.user;
@@ -24,7 +25,7 @@ const googleAuth = async (req, res) => {
     refreshToken,
   });
   res.redirect(
-    `${FRONTEND_URL}?accessToken=${accessToken}&refreshToken=${refreshToken}`
+    `https://fantusya.github.io/petly?accessToken=${accessToken}&refreshToken=${refreshToken}`
   );
 };
 
