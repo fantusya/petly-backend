@@ -122,8 +122,7 @@ const joiEditInfoSchema = Joi.object({
         new Error("enter valid email: min 6, max 63 characters, except .ru")
     )
     .min(12)
-    .max(50)
-    .required(),
+    .max(50),
   birthDate: Joi.date(),
   name: Joi.string().min(2).max(16).pattern(nameRegexp),
   city: Joi.string().min(2),
