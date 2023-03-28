@@ -11,6 +11,7 @@ const googleParams = {
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
   callbackURL: `https://petly-gd7x.onrender.com/api/users/google/callback`,
+
   passReqToCallback: true,
 };
 
