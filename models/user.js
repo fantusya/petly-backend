@@ -4,10 +4,10 @@ const bcrypt = require("bcryptjs");
 
 const nameRegexp =
   /^[a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'\s]*[a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'][a-zA-Zа-яА-ЯіІїЇґҐщЩьЬЄє'\s]*$/;
-// const emailRegexp =
-//   /^(?=.{1,63}$)(?=.{2,}@)[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 const passwordRegexp = /^\S+$/;
 const phoneRegexp = /^\+380\d{9}$/;
+const emailRegexp = /^[^а-яА-ЯёЁ!#$%*/?^`+&{|}~]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
 const userSchema = new Schema(
   {
@@ -15,9 +15,9 @@ const userSchema = new Schema(
       type: String,
       lowercase: true,
       required: [true, "Email is required"],
-      // match: [emailRegexp, "Please enter a valid email"],
-      minLength: 12,
-      maxLength: 50,
+      match: [emailRegexp],
+      minLength: 5,
+      maxLength: 63,
     },
 
     password: {
@@ -86,10 +86,13 @@ const joiRegisterSchema = Joi.object({
     .email({ tlds: { deny: ["ru"] } })
     .error(
       (errors) =>
-        new Error("enter valid email: min 6, max 63 characters, except .ru")
+        new Error(
+          "enter valid email: min 5, max 63 characters, except .ru. Don't use cyrillic, special symbols, besides '-', '_', '.' "
+        )
     )
-    .min(12)
-    .max(50)
+    .min(5)
+    .max(63)
+    .pattern(emailRegexp)
     .required(),
   // email: Joi.string().min(12).max(50).pattern(emailRegexp).required(),
   password: Joi.string().min(7).pattern(passwordRegexp).required(),
