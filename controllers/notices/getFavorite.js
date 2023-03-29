@@ -21,16 +21,21 @@ const getFavorite = async (req, res) => {
     res.json({ results: [] });
   }
 
-  const userNotices = await User.findOne({ _id }).populate({
+  const { favoriteNotices } = await User.findOne({ _id }).populate({
     path: "favoriteNotices",
     match: { title: { $regex: search, $options: "i" } },
     options: {
-      select: "-createdAt -updatedAt",
+      // select: "-createdAt -updatedAt",
       skip: Number(skip),
       limit: Number(limit),
     },
   });
-  const results = userNotices.favoriteNotices;
+  // const results = userNotices.favoriteNotices;
+
+  const results = [...favoriteNotices].sort(
+    (firstNotice, secondNotice) =>
+      new Date(secondNotice.createdAt) - new Date(firstNotice.createdAt)
+  );
 
   // const result = [];
 
