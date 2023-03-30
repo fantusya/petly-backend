@@ -2,8 +2,9 @@ const { Notice } = require("../../models");
 
 const getByCategory = async (req, res) => {
   const { category } = req.params;
-  const { page = 1, limit = 10, search = "" } = req.query;
-  const skip = (page - 1) * limit;
+  const { search = "" } = req.query;
+  // const { page = 1, limit = 10, search = "" } = req.query;
+  // const skip = (page - 1) * limit;
 
   const totalItems = await Notice.find({
     category,
@@ -15,12 +16,12 @@ const getByCategory = async (req, res) => {
   }
 
   const notices = await Notice.find(
-    { category, title: { $regex: search, $options: "i" } },
-    "-createdAt -updatedAt",
-    {
-      skip,
-      limit: Number(limit),
-    }
+    { category, title: { $regex: search, $options: "i" } }
+    // "-createdAt -updatedAt"
+    // {
+    //   skip,
+    //   limit: Number(limit),
+    // }
   ).populate("owner", "_id name email");
 
   const results = [...notices].sort(
@@ -28,7 +29,8 @@ const getByCategory = async (req, res) => {
       new Date(secondNotice.createdAt) - new Date(firstNotice.createdAt)
   );
 
-  res.json({ totalItems, results });
+  res.json({ results });
+  // res.json({ totalItems, results });
 };
 
 module.exports = getByCategory;

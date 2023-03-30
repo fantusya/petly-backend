@@ -4,8 +4,9 @@ const { User } = require("../../models");
 const getFavorite = async (req, res) => {
   // const { favoriteNotices } = req.user;
   const { _id } = req.user;
-  const { page = 1, limit = 12, search = "" } = req.query;
-  const skip = (page - 1) * limit;
+  const { search = "" } = req.query;
+  // const { page = 1, limit = 12, search = "" } = req.query;
+  // const skip = (page - 1) * limit;
 
   // if (favoriteNotices.length === 0) {
   //   res.json({ favoriteNotices: [] });
@@ -24,11 +25,11 @@ const getFavorite = async (req, res) => {
   const { favoriteNotices } = await User.findOne({ _id }).populate({
     path: "favoriteNotices",
     match: { title: { $regex: search, $options: "i" } },
-    options: {
-      // select: "-createdAt -updatedAt",
-      skip: Number(skip),
-      limit: Number(limit),
-    },
+    // options: {
+    //   select: "-createdAt -updatedAt",
+    //   skip: Number(skip),
+    //   limit: Number(limit),
+    // },
   });
   // const results = userNotices.favoriteNotices;
 
@@ -48,7 +49,8 @@ const getFavorite = async (req, res) => {
   //   }
   // }
 
-  res.json({ results, totalItems });
+  res.json({ results });
+  // res.json({ results, totalItems });
 };
 
 module.exports = getFavorite;
