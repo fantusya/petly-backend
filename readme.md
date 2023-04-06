@@ -5,9 +5,9 @@ To learn more about this project go to the [front-end repository](https://github
 
 ## 💻 Tech Stack
 
-**Client:** React, Redux Toolkit, Styled Components [ . . . ](https://github.com/fantusya/petly)
+**_Client:_** React, Redux Toolkit, Styled Components [ . . . ](https://github.com/fantusya/petly)
 
-**Server:** Node.js, Express.js, MongoDB, Multer, Cloudinary, Google sign-In, JWT, Swagger
+**_Server:_** Node.js, Express.js, MongoDB, Multer, Cloudinary, Google sign-In, JWT, Swagger
 
 ## 🔗 Links
 
